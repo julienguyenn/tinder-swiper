@@ -2,15 +2,19 @@
 <html>
   <head>
     <link rel="stylesheet" href="static/style/styles.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   </head>
   <body>
     <div id="left-side">
       <img id="logo" src="static/images/logo.png" alt="logo">
       <!-- <div id="drop-area"> commented out for drag and drop -->
-      <div>
-        <form enctype="multipart/form-data" action="/upload" method="post" onsubmit="location.replace('matches')">
-          <p>Find your matches with any photo!</p>
-          <input class="text-input" type="text">
+      <div id="form-box">
+        <div id="first-form">
+          <input class="text-input" type="text" placeholder="Email">
+          <input class="text-input" type="password" placeholder="Password">
+          <button id="change-form" class="button" onclick="hideElement()">Find kuya and ate today</button>
+        </div>
+        <form id="second-form" enctype="multipart/form-data" action="/upload" method="post" onsubmit="location.replace('matches')">
           <input id="image-file" type="file" name="file" />
           <button id="submit-button" type="submit">Find my matches</button>
         </form>
@@ -32,6 +36,12 @@
       </div>
       <img id="couple-pic" src="static/images/couple.jpg" alt>
     </div>
+    <script>
+      function hideElement() {
+        document.getElementById("first-form").style.display = "none";
+        document.getElementById("second-form").style.display = "flex"
+      }
+    </script>
     <!-- <script src="static/scripts/drag_and_drop.js"></script> -->
   </body>
 </html>
