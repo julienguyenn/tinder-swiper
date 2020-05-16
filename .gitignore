@@ -1,7 +1,13 @@
+OpenFace_2.2.0_win_x64
+images
+
+
+# Dev env files
 .DS_Store
 .vscode
-__pycache__
 
-OpenFace*
-images
-processed
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
