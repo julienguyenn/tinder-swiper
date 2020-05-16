@@ -4,15 +4,27 @@
     <link rel="stylesheet" href="static/style/styles.css">
   </head>
   <body>
-    <img src="static/images/logo.png" alt="logo">
-    <h1>Hi dom and winston, find your matches here</h1>
-    <!-- <div id="drop-area"> commented out for drag and drop -->
-    <div>
-      <form enctype="multipart/form-data" action="/upload" method="post" onsubmit="location.replace('matches')">
-        <p>Upload the best photo of your sibling!</p>
-        <input id="image-file" type="file" name="file" />
-        <button id="button" type="submit">Find my matches</button>
-      </form>
+    <div id="left-side">
+      <img id="logo" src="static/images/logo.png" alt="logo">
+      <!-- <div id="drop-area"> commented out for drag and drop -->
+      <div>
+        <form enctype="multipart/form-data" action="/upload" method="post" onsubmit="location.replace('matches')">
+          <p>Find your matches with any photo!</p>
+          <input class="text-input" type="text">
+          <input id="image-file" type="file" name="file" />
+          <button id="submit-button" type="submit">Find my matches</button>
+        </form>
+      </div>
+    </div>
+    <div id="right-side">
+      <div class="information">
+        <ul style="list-style-type:none">
+        <li>Upload photos of people without a trace</li>
+        <li>Automatically swipe right on familiar faces</li>
+        <li>Find true love in all the right places</li>
+        </ul>
+      </div>
+      <img id="couple-pic" src="static/images/couple.jpg" alt>
     </div>
     <!-- <script src="static/scripts/drag_and_drop.js"></script> -->
   </body>

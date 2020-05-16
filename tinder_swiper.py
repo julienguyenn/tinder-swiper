@@ -14,7 +14,7 @@ def root():
 
 # Respond with token that the user can use to acess a preview of the profiles in real time
 #   Token is a hash of the image sent (sha1? murmur2?)
-@app.route('/upload', methods=['POST'])
+@app.route('/matches', methods=['GET'])
 def upload():
     print(request.files)
     return app.send_static_file('markup/matches.html')

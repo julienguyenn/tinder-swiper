@@ -1,4 +1,58 @@
-#drop-area {
+html {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+  height: 100%;
+  font-family: "Open Sans",sans-serif;
+  display: grid;
+  grid-template-columns: 55% 45%;
+}
+
+#logo {
+  width: 100%
+}
+
+#submit-button {
+  background: #41afe7;
+  width: 400px;
+  height: 50px;
+  border-radius: 15px;
+  font-size: 22px;
+  color: white;
+  border: none;
+}
+
+#image-file {
+  font-size: 15px
+}
+
+#image-file::-webkit-file-upload-button {
+  background: #41afe7;
+  width: 400px;
+  height: 50px;
+  border-radius: 15px;
+  font-size: 22px;
+  color: white;
+  border: none;
+}
+
+#right-side {
+  background: #41afe7;
+  color: white;
+  font-weight: 100;
+  display: grid;
+  grid-template-rows: 56% 44%;
+}
+
+#couple-pic {
+  width: 100%;
+}
+/* 141F2A */
+
+/* #drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
   width: 480px;
@@ -37,4 +91,4 @@ p {
 }
 #fileElem {
   display: none;
-}
+} */
