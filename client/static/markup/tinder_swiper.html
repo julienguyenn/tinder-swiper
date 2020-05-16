@@ -6,14 +6,14 @@
   <body>
     <img src="static/images/logo.png" alt="logo">
     <h1>Hi dom and winston, find your matches here</h1>
-    <div id="drop-area">
-      <form class="my-form">
+    <!-- <div id="drop-area"> commented out for drag and drop -->
+    <div>
+      <form enctype="multipart/form-data" action="/upload" method="post" onsubmit="location.replace('matches')">
         <p>Upload the best photo of your sibling!</p>
-        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-        <label class="button" for="fileElem">Select some files</label>
+        <input id="image-file" type="file" name="file" />
+        <button id="button" type="submit">Find my matches</button>
       </form>
     </div>
-    <button>FIND BITCHES</button>
-    <script src="static/scripts/drag_and_drop.js"></script>
+    <!-- <script src="static/scripts/drag_and_drop.js"></script> -->
   </body>
 </html>
