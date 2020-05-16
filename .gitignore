@@ -1,4 +1,5 @@
 .DS_Store
+.vscode
 __pycache__
 
 openface_api/OpenFace*
