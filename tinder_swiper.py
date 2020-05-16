@@ -6,12 +6,12 @@ python -m pip install -U flask python-dateutil wget
 from flask import Flask, request
 from os import path, rename
 from pathlib import Path
-from openface_api.wrapper import process_pics
+# from openface_api.wrapper import process_pics
 import glob
 import pandas as pd
 import numpy as np
 
-import tinder_api.session
+# import tinder_api.session
 
 STATIC_FOLDER = 'static/'
 BASE_FOLDER = 'base/'
@@ -20,7 +20,7 @@ PROCESSED_FOLDER = 'processed/'
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
 
-sess = tinder_api.session.Session()
+# sess = tinder_api.session.Session()
 
 @app.route('/')
 def root():
