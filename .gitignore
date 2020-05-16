@@ -1,1 +1,6 @@
 .DS_Store
+__pycache__
+
+openface_api/OpenFace*
+openface_api/images
+openface_api/processed
