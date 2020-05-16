@@ -1,4 +1,5 @@
 from flask import Flask, request
+import os
 from os import path, rename
 from pathlib import Path
 import glob
@@ -73,19 +74,24 @@ def compare(base_fp: str, comparison_fp: str) -> float:
         for row in comparison_arr:
             d = np.sqrt(np.sum((base_arr - row) ** 2) / base_arr.shape[1])
             if d < dist: dist = d
-            
+
         return dist
     
     else:
         return -1
     
-def batch_compare(base_fp: str, comparison_dir: str) -> float:
-    base_arr = pd.read_csv(base_fp).loc[:, ' x_0':' y_67'].values
+def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
+    """ Compare the base CSV to a directory containing comparison CSVs.
+        Returns a tuple containing the (name of file and distance value).
+        The tuple contains the comparison csv that is the most similar to base.
+    """
     results = {}
     
-    for comparison_csv in glob.glob(comparison_dir):
-        #results[]
-        pass
+    for comparison_csv in glob.glob(comparison_dir + '/*.csv'):
+        filename = os.path.split(comparison_csv)[1].split('.')[0]
+        results[filename] = compare(base_fp, comparison_csv)
+        
+    return (min(results, key=results.get), results[min(results, key=results.get)])
 
 if __name__ == "__main__":
     app.run()
