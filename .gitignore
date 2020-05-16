@@ -1,6 +1,7 @@
 .DS_Store
 .vscode
 __pycache__
+.vscode
 
 openface_api/OpenFace*
 openface_api/images
