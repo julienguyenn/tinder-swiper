@@ -1,7 +1,4 @@
 import subprocess
-import pandas as pd
-import numpy as np
-import os
 
 
 def process_pics(in_file="", in_dir="") -> None:
