@@ -1,6 +1,6 @@
 '''
 python -m pip install -U pip
-python -m pip install -U flask python-dateutil wget
+python -m pip install -U flask python-dateutil wget pandas numpy
 '''
 
 from flask import Flask, request
