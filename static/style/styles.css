@@ -11,8 +11,15 @@ body {
   grid-template-columns: 55% 45%;
 }
 
+#left-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
 #logo {
-  width: 100%
+  width: 475px;
 }
 
 #submit-button {
@@ -46,6 +53,33 @@ body {
   display: grid;
   grid-template-rows: 56% 44%;
 }
+
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.description {
+  margin: 80px 0;
+  display: flex;
+  align-items: center;
+}
+
+.description-image {
+  width: 50px;
+  margin: 0 15px 0 0;
+}
+
+.swipe {
+  width: 35px;
+}
+
+.heart {
+  width: 40px;
+}
+
+
 
 #couple-pic {
   width: 100%;
