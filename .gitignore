@@ -1,5 +1,8 @@
 OpenFace_2.2.0_win_x64/
 base/
+images/
+processed/
+compare_imgs/
 test*
 
 # Dev env files
