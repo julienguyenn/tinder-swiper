@@ -17,10 +17,35 @@ def root():
 @app.route('/upload', methods=['POST'])
 def upload():
     print(request.files)
-    
+
 
 def is_file_allowed(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+def compare(base_fp: str, comparison_fp: str) -> float:
+    """ Returns the distance between base and comparison. Returns 
+        lowest distance if there are multiple faces.
+        Base and comparison are filepaths to CSVs.
+    """
+    base_arr = pd.read_csv(base_fp).loc[:, ' x_0':' y_67'].values
+    comparison_arr = pd.read_csv(comparison_fp).loc[:, ' x_0':' y_67'].values
+    
+    if comparison_arr.shape[0] == 1:
+        return np.sqrt(np.sum((base_arr - comparison_arr) ** 2) / base_arr.shape[1])
+    
+    elif comparison_arr.shape[0] > 1:
+        dist = float('inf')
+        
+        for row in comparison_arr:
+            d = np.sqrt(np.sum((base_arr - row) ** 2) / base_arr.shape[1])
+            if d < dist: dist = d
+            
+        return dist
+    
+    else:
+        return -1
+
 
 if __name__ == "__main__":
     app.run()
