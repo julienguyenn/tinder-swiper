@@ -3,7 +3,7 @@ app = Flask(__name__)
 app._static_folder = 'static'
 
 
-
+# main route
 @app.route('/')
 def hello_world():
     return render_template('tinder_swiper.html')
