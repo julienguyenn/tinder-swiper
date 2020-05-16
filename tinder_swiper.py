@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, request
 import os
 
 STATIC_FOLDER = 'static'
@@ -17,6 +17,7 @@ def root():
 @app.route('/upload', methods=['POST'])
 def upload():
     print(request.files)
+    return app.send_static_file('markup/matches.html')
     
 
 def is_file_allowed(filename):
