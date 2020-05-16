@@ -1,4 +1,125 @@
-#drop-area {
+html {
+  height: 100%;
+}
+
+body {
+  overflow: hidden;
+  margin: 0;
+  height: 100%;
+  font-family: "Open Sans",sans-serif;
+  display: grid;
+  grid-template-columns: 55% 45%;
+}
+
+#left-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+}
+
+#logo {
+  width: 500px;
+}
+
+#form-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin: 40px 0 0 0;
+}
+
+#second-form {
+  display: none;
+  flex-direction: column;
+}
+
+
+.text-input {
+  margin: 30px 0;
+  height: 45px;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+  width: 80%;
+  font-size: 25px;
+  padding: 5px;
+}
+
+.text-input::placeholder {
+  font-size: 19px;
+  color: #cccccc;
+  font-weight: 400;
+}
+
+.text-input:focus {
+  outline: none;
+}
+
+.button {
+  background: #41afe7;
+  width: 100%;
+  height: 50px;
+  border-radius: 15px;
+  font-size: 18px;
+  color: white;
+  border: none;
+  margin: 50px 0;
+}
+
+#image-file {
+  font-size: 15px;
+}
+
+.button::-webkit-file-upload-button {
+  background: #41afe7;
+  width: 50%;
+  height: 50px;
+  border-radius: 15px;
+  font-size: 22px;
+  color: white;
+  border: none;
+}
+
+#right-side {
+  background: #41afe7;
+  color: white;
+  font-weight: 100;
+  display: grid;
+  grid-template-rows: 56% 44%;
+}
+
+.information {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.description {
+  margin: 80px 0;
+  display: flex;
+  align-items: center;
+}
+
+.description-image {
+  width: 50px;
+  margin: 0 15px 0 0;
+}
+
+.swipe {
+  width: 35px;
+}
+
+.heart {
+  width: 40px;
+}
+
+#couple-pic {
+  width: 100%;
+}
+
+
+/* #drop-area {
   border: 2px dashed #ccc;
   border-radius: 20px;
   width: 480px;
@@ -37,4 +158,4 @@ p {
 }
 #fileElem {
   display: none;
-}
+} */

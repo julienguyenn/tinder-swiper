@@ -1,0 +1,10 @@
+Input:images\sample1.jpg
+Input full path:C:\Users\winst\Desktop\tinder-swiper\images\sample1.jpg
+Camera parameters:458.333,458.333,320,200
+Output csv:sample1.csv
+Gaze: 0
+AUs: 0
+Landmarks 2D: 1
+Landmarks 3D: 0
+Pose: 0
+Shape parameters: 0

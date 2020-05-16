@@ -1,14 +1,10 @@
-OpenFace_2.2.0_win_x64
-images
-processed
+OpenFace_2.2.0_win_x64/
+base/
 test*
-
-!static/images
-
 
 # Dev env files
 .DS_Store
-.vscode
+.vscode/
 
 
 # Byte-compiled / optimized / DLL files

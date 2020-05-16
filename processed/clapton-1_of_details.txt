@@ -1,0 +1,10 @@
+Input:images/comparison\clapton-1.jpg
+Input full path:C:\Users\winst\Desktop\tinder-swiper\images\comparison\clapton-1.jpg
+Camera parameters:462.5,462.5,312,210
+Output csv:clapton-1.csv
+Gaze: 0
+AUs: 0
+Landmarks 2D: 1
+Landmarks 3D: 0
+Pose: 0
+Shape parameters: 0
