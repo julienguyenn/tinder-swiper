@@ -1,5 +1,9 @@
 from flask import Flask, render_template
 import os
+import glob
+import pandas as pd
+import numpy as np
+
 
 STATIC_FOLDER = 'static'
 IMAGES_FOLDER = 'images'
@@ -45,7 +49,14 @@ def compare(base_fp: str, comparison_fp: str) -> float:
     
     else:
         return -1
-
+    
+def batch_compare(base_fp: str, comparison_dir: str) -> float:
+    base_arr = pd.read_csv(base_fp).loc[:, ' x_0':' y_67'].values
+    results = {}
+    
+    for comparison_csv in glob.glob(comparison_dir):
+        #results[]
+        pass
 
 if __name__ == "__main__":
     app.run()
