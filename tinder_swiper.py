@@ -1,9 +1,8 @@
-from flask import Flask, render_template
-import os
+from flask import Flask
+from os import path
 
-STATIC_FOLDER = 'static'
-IMAGES_FOLDER = 'images'
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+STATIC_FOLDER = 'static/'
+IMAGES_FOLDER = 'images/'
 
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
@@ -16,11 +15,12 @@ def root():
 #   Token is a hash of the image sent (sha1? murmur2?)
 @app.route('/upload', methods=['POST'])
 def upload():
-    print(request.files)
+    file = request.files['file']
+    if file and '.' in file.filename:
+        # Create a hash and save it
+        filename = str(hash(file) + file.filename.rsplit('.', 1)[1]
+        file.save(IMAGES_FOLDER + filename)
     
-
-def is_file_allowed(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 if __name__ == "__main__":
     app.run()
