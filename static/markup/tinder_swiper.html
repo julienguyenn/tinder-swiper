@@ -8,9 +8,9 @@
     <h1>Hi dom and winston, find your matches here</h1>
     <!-- <div id="drop-area"> commented out for drag and drop -->
     <div>
-      <form enctype="multipart/form-data" action="/upload" method="post">
+      <form enctype="multipart/form-data" action="/upload" method="post" onsubmit="location.replace('matches')">
         <p>Upload the best photo of your sibling!</p>
-        <input id="image-file" name="file" />
+        <input id="image-file" type="file" name="file" />
         <button id="button" type="submit">Find my matches</button>
       </form>
     </div>
