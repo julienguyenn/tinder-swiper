@@ -2,18 +2,46 @@
 <html>
   <head>
     <link rel="stylesheet" href="static/style/styles.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   </head>
   <body>
-    <img src="static/images/logo.png" alt="logo">
-    <h1>Hi dom and winston, find your matches here</h1>
-    <div id="drop-area">
-      <form class="my-form">
-        <p>Upload the best photo of your sibling!</p>
-        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-        <label class="button" for="fileElem">Select some files</label>
-      </form>
+    <div id="left-side">
+      <img id="logo" src="static/images/logo.png" alt="logo">
+      <!-- <div id="drop-area"> commented out for drag and drop -->
+      <div id="form-box">
+        <div id="first-form">
+          <input class="text-input" type="text" placeholder="Email">
+          <input class="text-input" type="password" placeholder="Password">
+          <button id="change-form" class="button" onclick="hideElement()">Find kuya and ate today</button>
+        </div>
+        <form id="second-form" enctype="multipart/form-data" action="/upload" method="post" onsubmit="location.replace('matches')">
+          <input class="button" id="image-file" type="file" name="file" />
+          <button class="button" id="submit-button" type="submit">Find my matches</button>
+        </form>
+      </div>
     </div>
-    <button>FIND BITCHES</button>
-    <script src="static/scripts/drag_and_drop.js"></script>
+    <div id="right-side">
+      <div class="information">
+        <ul style="list-style-type:none">
+        <li class="description">
+          <img class="description-image" src="static/images/cloud.png"/>
+          Upload photos of people without a trace</li>
+        <li class="description">
+          <img class="description-image swipe" src="static/images/swipe.png"/>
+          Automatically swipe right on familiar faces</li>
+        <li class="description">
+          <img class="description-image heart" src="static/images/heart.png"/>
+          Find true love in all the right places</li>
+        </ul>
+      </div>
+      <img id="couple-pic" src="static/images/couple.jpg" alt>
+    </div>
+    <script>
+      function hideElement() {
+        document.getElementById("first-form").style.display = "none";
+        document.getElementById("second-form").style.display = "flex"
+      }
+    </script>
+    <!-- <script src="static/scripts/drag_and_drop.js"></script> -->
   </body>
 </html>
