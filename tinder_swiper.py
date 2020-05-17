@@ -26,7 +26,8 @@ import tinder_api.session as session
 sess = session.Session()
 
 # Any distance value below this will be liked
-SIM_THRESHOLD = 300
+SIM_THRESHOLD = 200
+P_AT_THRES = 0.66
 
 STATIC_FOLDER = 'static/'
 BASE_FOLDER = 'base/'
@@ -38,8 +39,6 @@ app._static_folder = STATIC_FOLDER
 
 token_dict = {}
 
-
-# sess = tinder_api.session.Session()
 
 @app.route('/')
 def root():
@@ -60,7 +59,7 @@ def matches() -> None:
         file.save(filepath)
 
         # Create a base image
-        process_pics(filepath, verbose=False)
+        process_pics(filepath)
 
         # Move the csv into base
         processed_file = token + '.csv'
@@ -104,7 +103,7 @@ def match() -> None:
         
         # Run open face in whole dir
         print('Processing pics...')
-        process_pics(in_dir=download_dir, verbose=False)
+        process_pics(in_dir=download_dir, csv_only=False)
         
         # Determine the similarity score
         sim_results = batch_compare(BASE_FOLDER + str(token) + '.csv', PROCESSED_FOLDER)
@@ -112,19 +111,19 @@ def match() -> None:
         # Swipe right or left and select best pic to send
         # this indicates that there were no faces detected in any of the user's photos
         if sim_results == -1: 
-            pic = base64_encode(download_dir + str(token) + '_0.jpg')
+            pic = base64_encode(PROCESSED_FOLDER + str(token) + '_0.jpg')
             print('No face', sim_results)
             dist_val = sim_results
             user.dislike()
             
         elif sim_results[1] >= SIM_THRESHOLD:
-            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            pic = base64_encode(PROCESSED_FOLDER + sim_results[0] + '.jpg')
             print('Dislike', sim_results)
             user.dislike()
             dist_val = sim_results[1]
             
         elif sim_results[1] < SIM_THRESHOLD:
-            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            pic = base64_encode(PROCESSED_FOLDER + sim_results[0] + '.jpg')
             print('Like', sim_results)
             dist_val = sim_results[1]
             matched = user.like()
@@ -144,13 +143,13 @@ def match() -> None:
         
         for fp in files_to_del:
             try:
-                os.remove(fp)
+                remove(fp)
             except:
                 print('Error while deleting file: ' + fp)
         
         # Delete downloaded pics
         try:
-            shutil.rmtree(download_dir)
+            remove(download_dir)
         except:
             print('Error while deleting file: ' + download_dir)
         
@@ -209,11 +208,27 @@ def base64_encode(in_file: str) -> str:
         encoded_string = base64.b64encode(image_file.read()) 
     return "data:image/jpeg;base64," + str(encoded_string)[2:-1]
 
+def remove(path):
+    """ param <path> could either be relative or absolute. """
+    if os.path.isfile(path) or os.path.islink(path):
+        os.remove(path)  # remove the file
+    elif os.path.isdir(path):
+        shutil.rmtree(path)  # remove dir and all contains
+    else:
+        raise ValueError("file {} is not a file or dir.".format(path))
+
 def match_likelihood(dist_val):
+    """ y=b/(x+b) 
+    where x = P_AT_THRES;
+          y = SIM_THRESHOLD
+    """
+    
+    b = -(P_AT_THRES * SIM_THRESHOLD) / (P_AT_THRES - 1)
+    
     if dist_val < 0:
         return 0
     else:
-        return  700 / (dist_val + 700)
+        return  b / (dist_val + b)
 
 if __name__ == "__main__":
     app.run()
