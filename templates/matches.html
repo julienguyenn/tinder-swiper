@@ -68,10 +68,11 @@
         console.log("fetching api")
         $.get(`/api/match?token=${user}`)
         .then((res) => {
+          console.log(res)
           $(document).ready(function() {
             $('#match-photo').attr("src", res.pic);
             $('#match-name').text(res.name);
-        })
+          })})}
 
         // interval = setInterval(async () => {
         //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
@@ -88,7 +89,7 @@
         //   //   })
         //   // })
         // }, 100);
-      }
+      // }
 
       function stopFind() {
         clearInterval(interval);
