@@ -11,18 +11,16 @@ from os import path, rename
 from pathlib import Path
 import base64
 
-import glob
-import pandas as pd
-import numpy as np
-
 from openface_api.wrapper import process_pics
 import glob
 import pandas as pd
 import numpy as np
 import sys
+import urllib.request
+import shutil
 
 sys.path.insert(0, 'tinder_api')
-import tinder_api.session
+import tinder_api.session as session
 
 # Any distance value below this will be liked
 SIM_THRESHOLD = 300
@@ -67,15 +65,15 @@ def matches() -> None:
     else:
         return 'Image not recieved', 400
 
-@app.route('/api/match', methods=['GET'])
-def match() -> None:
-    token = request.args['token']
+#@app.route('/api/match', methods=['GET'])
+def match(token: int) -> None:
+    #token = request.args['token']
     if token:
         # Init session
         sess = session.Session()
         
-        Path(COMPARISON_FOLDER).mkdir(parents=True, exist_ok=True)
         download_dir = COMPARISON_FOLDER + str(token) + '/'
+        Path(download_dir).mkdir(parents=True, exist_ok=True)
         
         # Get info for one user
         user = next(sess.yield_users())        
@@ -125,7 +123,7 @@ def match() -> None:
         
         # Delete downloaded pics
         try:
-            os.remove(download_dir)
+            shutil.rmtree(download_dir)
         except:
             print('Error while deleting file: ' + download_dir)
         
@@ -140,13 +138,13 @@ def compare(base_fp: str, comparison_fp: str) -> float:
     comparison_arr = pd.read_csv(comparison_fp).loc[:, ' x_0':' y_67'].values
     
     if comparison_arr.shape[0] == 1:
-        return np.sqrt(np.sum((base_arr - comparison_arr) ** 2) / base_arr.shape[1])
+        return np.sqrt(np.sum((base_arr - comparison_arr) ** 2) / len(base_arr))
     
     elif comparison_arr.shape[0] > 1:
         dist = float('inf')
         
         for row in comparison_arr:
-            d = np.sqrt(np.sum((base_arr - row) ** 2) / base_arr.shape[1])
+            d = np.sqrt(np.sum((base_arr - row) ** 2) / len(base_arr))
             if d < dist: dist = d
 
         return dist
@@ -167,6 +165,13 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
             results[filename] = compare(base_fp, comparison_csv)
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
+
+def download_image(img_lst, name, ddir):
+    """ This function takes in a list of images, along with a name for the 
+        output and downloads them into a directory.
+    """
+    for i, img_link in enumerate(img_lst):
+        urllib.request.urlretrieve(img_link, ddir + str(name) + '_' + str(i) + '.jpg')
 
 def base64_encode(in_file: str) -> str:
     with open(in_file, "rb") as image_file:
