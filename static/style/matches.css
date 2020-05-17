@@ -61,10 +61,13 @@ html, body{
 
 .frame{
     border: 10px solid white;
+    background: white;
     border-radius: 25px;
     box-shadow: 6px 13px 16px 3px black;
     overflow: hidden;
     height: 375px;
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -84,6 +87,10 @@ html, body{
 
 #current-state {
     flex-grow: 2;
+    background-image: url('../images/start-placeholder.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 #start-stop-buttons {
@@ -91,3 +98,15 @@ html, body{
     justify-content: space-evenly;
 }
 
+.control-button {
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'open sans';
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+.control-button:hover {
+    font-weight: 700;
+}
