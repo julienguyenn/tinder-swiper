@@ -3,10 +3,11 @@ python -m pip install -U pip
 python -m pip install -U flask python-dateutil wget pandas numpy glob
 '''
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import os
 from os import path, rename
 from pathlib import Path
+import base64
 
 import glob
 import pandas as pd
@@ -74,8 +75,11 @@ def match() -> None:
         
         # Get info for one user
         user = next(sess.yield_users())        
-        user_name = user.name
-        user_bio = user.bio 
+        name = user.name
+        age = user.age
+        gender = user.gender
+        bio = user.bio
+        pic = ""
         liked = False
         
         # Download pictures to /comparison/token/token{0-X}
@@ -87,18 +91,41 @@ def match() -> None:
         # Determine the similarity score
         sim_results = batch_compare(BASE_FOLDER + str(token) + '.csv', PROCESSED_FOLDER)
         
-        # Swipe right or left
-        if sim_results == -1:
+        # Swipe right or left and select best pic to send
+        # this indicates that there were no faces detected in any of the user's photos
+        if sim_results == -1: 
+            user_pic = base64_encode(download_dir + str(token) + '_0.jpg')
             user.dislike()
         elif sim_results[1] >= SIM_THRESHOLD:
+            user_pic = base64_encode(download_dir + sim_results[0] + '.jpg')
             user.dislike()
         elif sim_results[1] < SIM_THRESHOLD:
+            user_pic = base64_encode(download_dir + sim_results[0] + '.jpg')
             user.like()
             liked = True
+            
+        # Send JSON
+        return_json = {}
+        user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked']
+        for v in user_info: 
+            return_json[v] = eval(v)
         
-        # Send best picture in comparison dir
-        # For picture in comparison dir, delete picture and corresponding pic in processed
-
+        # Delete CSVs from processed
+        files_to_del = glob.glob(PROCESSED_FOLDER + str(token) + '*')
+        
+        for fp in files_to_del:
+            try:
+                os.remove(fp)
+            except:
+                print('Error while deleting file: ' + fp)
+        
+        # Delete downloaded pics
+        try:
+            os.remove(download_dir)
+        except:
+            print('Error while deleting file: ' + download_dir)
+        
+        return jsonify(return_json)
 
 def compare(base_fp: str, comparison_fp: str) -> float:
     """ Returns the distance between base and comparison. Returns 
@@ -119,7 +146,7 @@ def compare(base_fp: str, comparison_fp: str) -> float:
             if d < dist: dist = d
 
         return dist
-    
+
 def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
     """ Compare the base CSV to a directory containing comparison CSVs.
         Returns a tuple containing the (name of file and distance value).
@@ -136,6 +163,12 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
             results[filename] = compare(base_fp, comparison_csv)
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
+
+def base64_encode(in_file: str) -> str:
+    with open(in_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+        
+    return encoded_string
 
 if __name__ == "__main__":
     app.run()
