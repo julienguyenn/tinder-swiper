@@ -44,6 +44,7 @@
           </div>
           <div id="start-stop-buttons">
             <button class="control-button" onclick="findMatches()">Start</button>
+            <div id="loading"></div>
             <button class="control-button" onclick="stopFind()">Stop</button>
           </div>
           <p></p>
@@ -73,6 +74,7 @@
       function findMatches() {
         const res = {name: 'Julie', age: 22, gender: 'female', bio: 'hi', liked: false}
         console.log("fetching api")
+        $('#loading').addClass("loader")
         // $.get(`/api/match?token=${user}`)
         // .then((res) => {
         //   console.log(res)
@@ -112,6 +114,7 @@
       // }
 
       function stopFind() {
+        $('#loading').removeClass("loader")
         clearInterval(interval);
       }
     </script>
