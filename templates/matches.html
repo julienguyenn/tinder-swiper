@@ -15,7 +15,7 @@
       <nav id='nav'> 
         <img id='logo', src="static/images/logo.png">
         <p id='header'>
-          Begin your search today, winston van
+          Begin your search today
         </p>
       </nav>
       <div class='top'>
@@ -24,7 +24,7 @@
         <div class="display-box">
           <div class='frame'>
           <!-- Anna should be swapped to the data piped in -->
-            <img class='picture', src="{{ image }}">
+            <img class='picture', src="">
           </div>
           <p>
             Your Photo
@@ -33,16 +33,22 @@
 
         <div class="display-box">
           <div class='frame'>
-            <img id="match-photo" class='picture' src="static/images/Anna2.jpeg">
+            <img id="match-photo" class='picture' src="../static/images/placeholder.png">
           </div>
           <p id="match-name">
           </p>
         </div>
 
-        <div class='metric'>
-          <button onclick="findMatches()">Start</button>
-          <button onclick="stopFind()">Stop</button>
-          <p></p>
+        <div id="metric">
+          <div id="current-state">
+            <div id="matched-box"></div>
+          </div>
+          <div id="start-stop-buttons">
+            <button class="control-button" onclick="findMatches()">Start</button>
+            <div id="loading"></div>
+            <button class="control-button" onclick="stopFind()">Stop</button>
+          </div>
+          <p id="like-result"></p>
         </div>
 
       </div>
@@ -68,6 +74,8 @@
       var interval;
       var ready = true;
       function findMatches() {
+        $('#loading').addClass("loader")
+        $('#current-state').css("background-image", "../static/images/start-placeholder.png")
         if (!interval)
           interval = setInterval(async () => {
             if(ready == true) {
@@ -84,8 +92,26 @@
                   info.eq(1).text(`Age: ${res.age}`);
                   info.eq(2).text(`Gender: ${res.gender}`);
                   info.eq(3).text(`Bio: ${res.bio}`);
-                  $('.metric').children().eq(2).text(`LIKED?: ${res.liked}`)
+                  $("#matched-box").addClass('found-match-result')
+                  $("#current-state").css("background-image", "none");
+                  $("#current-state").css("flex-grow", "0.7");
+                  $("#current-state").append(`${(res.matched_percent * 100).toFixed(0)}% <br> Similiar`)
                   ready = true;
+
+                  if (res.matched) {
+                    $("#matched-box").text('Matched')
+                  } else {
+                    $("#matched-box").text('Not Matched')
+                    $("#matched-box").css('background', 'red')
+                  }
+
+                  if (res.liked) {
+                    $('#metric').children().eq(2).text(`${res.name} was liked`)
+                  } else {
+                    $('#metric').children().eq(2).text(`${res.name} was not liked`)
+                  }
+
+
               })})
             } else {
               console.log("Server not ready, waiting another 100ms");
@@ -94,6 +120,7 @@
       }
 
       function stopFind() {
+        $('#loading').removeClass("loader")
         clearInterval(interval);
         interval = null;
       }

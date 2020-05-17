@@ -70,6 +70,7 @@ def matches() -> None:
     else:
         return 'Image not recieved', 400
 
+
 @app.route('/api/match', methods=['GET'])
 def match() -> None:
     token = request.args['token']

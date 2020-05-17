@@ -3,6 +3,7 @@ html, body{
     font-family: "Open Sans",sans-serif;
     height: 100%;
 }
+
 #nav{
     height: 85px;
     display: flex;
@@ -46,8 +47,8 @@ html, body{
 #bottom{
     background: white;
     border-radius: 25px;
-    height: 26%;
-    margin: 0 2%;
+    margin: 0 2% 2%;
+    flex-grow: 1;
 }
 #bottom p{
     color: grey;
@@ -60,8 +61,90 @@ html, body{
 
 .frame{
     border: 10px solid white;
+    background: white;
     border-radius: 25px;
     box-shadow: 6px 13px 16px 3px black;
     overflow: hidden;
     height: 375px;
+    display: flex;
+    justify-content: center;
 }
+
+
+#metric {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    margin: 25px 33px 0 0;
+}
+
+#like-result {
+    margin: 17px 0 0 0;
+    flex-grow: 0.2;
+    text-align: center;
+    color: darkslategray;
+}
+
+#current-state {
+    flex-grow: 2;
+    flex-direction: column;
+    background-image: url('../images/start-placeholder.png');
+    background-size: contain;
+    text-align: center;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-size: 4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#start-stop-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: white;
+    font-family: 'open sans';
+    font-size: 1.5em;
+    font-weight: 300;
+}
+
+.control-button:hover {
+    font-weight: 700;
+}
+
+.loader {
+    border: 10px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid black;
+    border-bottom: 10px solid black;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+    width: 19px;
+    height: 19px;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  #matched-box {
+    border-radius: 30px;
+    background: #00af00;
+    font-size: 0.6em;
+    margin-bottom: 15px;
+  }
+
+  .found-match-result {
+    padding: 9px;
+  }
