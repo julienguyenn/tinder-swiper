@@ -43,7 +43,7 @@ html, body{
     text-align: center;
 }
 
-.bottom{
+#bottom{
     background: white;
     border-radius: 25px;
     height: 26%;
