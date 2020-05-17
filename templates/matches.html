@@ -69,16 +69,17 @@
         console.log("fetching api")
         $.get(`/api/match?token=${user}`)
         .then((res) => {
+          console.log(res)
           $(document).ready(function() {
             $('#match-photo').attr("src", res.pic);
             $('#match-name').text(res.name);
             const info = $('#bottom').children()
             info.eq(0).text(`Name: ${res.name}`);
             info.eq(1).text(`Age: ${res.age}`);
-            info.children().eq(2).text(`Gender: ${res.gender}`);
-            info.children().eq(3).text(`Bio: ${res.bio}`);
-            $('metric').children().eq(2).text(`LIKED?: ${res.liked}`)
-        })
+            info.eq(2).text(`Gender: ${res.gender}`);
+            info.eq(3).text(`Bio: ${res.bio}`);
+            $('.metric').children().eq(2).text(`LIKED?: ${res.liked}`)
+        })})}
 
         // interval = setInterval(async () => {
         //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
@@ -95,7 +96,7 @@
         //   //   })
         //   // })
         // }, 100);
-      }
+      // }
 
       function stopFind() {
         clearInterval(interval);
