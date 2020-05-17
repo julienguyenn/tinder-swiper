@@ -188,11 +188,13 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
-def download_image(img_lst, name, ddir):
+def download_image(img_lst, name, ddir, pic_limit):
     """ This function takes in a list of images, along with a name for the 
         output and downloads them into a directory.
     """
     for i, img_link in enumerate(img_lst):
+        if pic_limit - 1 == i:
+            break
         urllib.request.urlretrieve(img_link, ddir + str(name) + '_' + str(i) + '.jpg')
 
 def base64_encode(in_file: str) -> str:

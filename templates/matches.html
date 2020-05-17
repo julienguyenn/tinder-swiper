@@ -67,7 +67,7 @@
       function findMatches() {
         console.log("fetching api")
         $.get(`/api/match?token=${user}`)
-        .then((res) => console.log("OUR JSON:", res.data))
+        .then((res) => console.log("OUR JSON:", res))
 
         // interval = setInterval(async () => {
         //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
