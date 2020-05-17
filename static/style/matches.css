@@ -46,8 +46,8 @@ html, body{
 #bottom{
     background: white;
     border-radius: 25px;
-    height: 26%;
-    margin: 0 2%;
+    margin: 0 2% 2%;
+    flex-grow: 1;
 }
 #bottom p{
     color: grey;
