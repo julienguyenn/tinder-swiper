@@ -44,28 +44,26 @@ def root():
 #   Token is a hash of the image sent (sha1? murmur2?)
 @app.route('/matches', methods=['POST'])
 def matches() -> None:
-    # file = request.files['file']
-    # if file and '.' in file.filename:
-    #     # Create a hash and save it
-    #     token = str(hash(file))
-    #     filename = token + '.' + file.filename.rsplit('.', 1)[1]
-    #     Path(BASE_FOLDER).mkdir(parents=True, exist_ok=True)
-    #     filepath = BASE_FOLDER + filename
-    #     file.save(filepath)
+    file = request.files['file']
+    if file and '.' in file.filename:
+        # Create a hash and save it
+        token = str(hash(file))
+        filename = token + '.' + file.filename.rsplit('.', 1)[1]
+        Path(BASE_FOLDER).mkdir(parents=True, exist_ok=True)
+        filepath = BASE_FOLDER + filename
+        file.save(filepath)
 
-    #     # Create a base image
-    #     process_pics(filepath)
+        # Create a base image
+        process_pics(filepath)
 
-    #     # Move the csv into base
-    #     processed_file = token + '.csv'
-    #     rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
+        # Move the csv into base
+        processed_file = token + '.csv'
+        rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
 
-    #     base64_image = base64_encode(filepath)        
-    #     return render_template('matches.html', token=token, image=base64_image)
-    # else:
-    #     return 'Image not recieved', 400
-
-    return render_template('matches.html')
+        base64_image = base64_encode(filepath)        
+        return render_template('matches.html', token=token, image=base64_image)
+    else:
+        return 'Image not recieved', 400
 
 @app.route('/api/match', methods=['GET'])
 def match() -> None:
