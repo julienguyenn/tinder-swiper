@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="static/style/matches.css">
+    <link href='static/images/favicon.ico' rel=icon>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <title>
       Matches
@@ -23,7 +24,7 @@
         <div class="display-box">
           <div class='frame'>
           <!-- Anna should be swapped to the data piped in -->
-            <img class='picture', src="{{ image }}">
+            <img class='picture', src="{{image}}">
           </div>
           <p>
             Your Photo
@@ -40,7 +41,6 @@
 
         <div id="metric">
           <div id="current-state">
-            <div id="matched-box"></div>
           </div>
           <div id="start-stop-buttons">
             <button class="control-button" onclick="findMatches()">Start</button>
@@ -91,10 +91,12 @@
                   info.eq(1).text(`Age: ${res.age}`);
                   info.eq(2).text(`Gender: ${res.gender}`);
                   info.eq(3).text(`Bio: ${res.bio}`);
-                  $("#matched-box").addClass('found-match-result')
                   $("#current-state").css("background-image", "none");
                   $("#current-state").css("flex-grow", "0.7");
+                  $("#current-state").empty();
                   $("#current-state").append(`${(res.matched_percent * 100).toFixed(0)}% <br> Similiar`)
+                  $("#current-state").append(`<div id="matched-box"></div>`)
+                  $("#matched-box").addClass('found-match-result')
                   ready = true;
 
                   if (res.matched) {
