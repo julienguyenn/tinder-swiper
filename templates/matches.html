@@ -74,7 +74,7 @@
       var ready = true;
       function findMatches() {
         $('#loading').addClass("loader")
-        $('#current-state').css("background-image", "../static/images/saving-placeholder.png")
+        $('#current-state').css("background-image", "url(../static/images/saving-placeholder.png)")
         if (!interval)
           interval = setInterval(async () => {
             if(ready == true) {
