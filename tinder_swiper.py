@@ -59,8 +59,9 @@ def matches() -> None:
         # Move the csv into base
         processed_file = token + '.csv'
         rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
-                
-        return render_template('matches.html', token=token, image=filepath)
+
+        base64_image = base64_encode(filepath)        
+        return render_template('matches.html', token=token, image=base64_image)
     else:
         return 'Image not recieved', 400
 
@@ -71,12 +72,11 @@ def match() -> None:
         # Init session
         sess = session.Session()
         
+        Path(COMPARISON_FOLDER).mkdir(parents=True, exist_ok=True)
         download_dir = COMPARISON_FOLDER + str(token) + '/'
-        Path(download_dir).mkdir(parents=True, exist_ok=True)
         
         # Get info for one user
         user = next(sess.yield_users())        
-        # These are the fields we will send as JSON
         name = user.name
         age = user.age
         gender = user.gender
