@@ -1,3 +1,8 @@
+'''
+python -m pip install -U pip
+python -m pip install -U flask python-dateutil wget
+'''
+
 from flask import Flask, request
 import os
 from os import path, rename
@@ -8,8 +13,11 @@ import pandas as pd
 import numpy as np
 
 from openface_api.wrapper import process_pics
-from tinder_api import session
-from tinder_api.example import download_image
+import glob
+import pandas as pd
+import numpy as np
+
+import tinder_api.session
 
 STATIC_FOLDER = 'static/'
 BASE_FOLDER = 'base/'
@@ -19,6 +27,8 @@ COMPARISON_FOLDER = 'comparison/'
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
 
+sess = tinder_api.session.Session()
+
 @app.route('/')
 def root():
     return app.send_static_file('markup/tinder_swiper.html')
@@ -26,7 +36,7 @@ def root():
 # Respond with token that the user can use to acess a preview of the profiles in real time
 #   Token is a hash of the image sent (sha1? murmur2?)
 @app.route('/matches', methods=['GET'])
-def matches():
+def matches() -> None:
     file = request.files['file']
     if file and '.' in file.filename:
         # Create a hash and save it
@@ -48,7 +58,7 @@ def matches():
         return 'Image not recieved', 400
 
 @app.route('/api/match', methods=['GET'])
-def match():
+def match() -> None:
     token = request.args['token']
     if token:
         # Init session
@@ -93,9 +103,6 @@ def compare(base_fp: str, comparison_fp: str) -> float:
             if d < dist: dist = d
 
         return dist
-    
-    else:
-        return -1
     
 def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
     """ Compare the base CSV to a directory containing comparison CSVs.
