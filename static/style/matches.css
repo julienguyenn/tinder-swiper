@@ -49,8 +49,7 @@ html, body{
     height: 26%;
     margin: 0 2%;
 }
-
-.bottom p{
+#bottom p{
     color: grey;
     font-size: 1.1em;
     margin: 18px 20px 10px 10px;
