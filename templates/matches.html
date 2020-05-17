@@ -23,7 +23,7 @@
         <div class="display-box">
           <div class='frame'>
           <!-- Anna should be swapped to the data piped in -->
-            <img class='picture', src="">
+            <img class='picture', src="{{ image }}">
           </div>
           <p>
             Your Photo
@@ -74,7 +74,7 @@
       var ready = true;
       function findMatches() {
         $('#loading').addClass("loader")
-        $('#current-state').css("background-image", "../static/images/start-placeholder.png")
+        $('#current-state').css("background-image", "../static/images/saving-placeholder.png")
         if (!interval)
           interval = setInterval(async () => {
             if(ready == true) {
