@@ -60,7 +60,7 @@ def matches() -> None:
         processed_file = token + '.csv'
         rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
                 
-        return render_template('templates/matches.html', token=token, image=filepath)
+        return render_template('matches.html', token=token, image=filepath)
     else:
         return 'Image not recieved', 400
 
