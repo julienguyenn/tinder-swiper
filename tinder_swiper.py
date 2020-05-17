@@ -1,6 +1,8 @@
 '''
 python -m pip install -U pip
 python -m pip install -U flask python-dateutil wget pandas numpy
+Download 64 bit OpenFace: https://github.com/TadasBaltrusaitis/OpenFace/wiki/Windows-Installation
+Right click "download_models.ps1" and run with powershell
 '''
 
 from flask import Flask, request, render_template, jsonify
