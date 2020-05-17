@@ -1,6 +1,6 @@
 '''
 python -m pip install -U pip
-python -m pip install -U flask python-dateutil wget pandas numpy
+python -m pip install -U flask python-dateutil wget pandas numpy glob
 '''
 
 from flask import Flask, request, render_template
@@ -65,22 +65,25 @@ def match() -> None:
     if token:
         # Init session
         sess = session.Session()
+        
+        Path(COMPARISON_FOLDER).mkdir(parents=True, exist_ok=True)
+        download_dir = COMPARISON_FOLDER + str(token) + '/'
         user_name = ""
         user_bio = ""
         
         # Download pictures to /comparison/token/token{0-X}
         for user in itertools.islice(sess.yield_users(), 1):
-            download_image(user.photos, token, COMPARISON_FOLDER + str(token) + '/')
+            download_image(user.photos, token, download_dir)
             
             user_name = user.name # store user name
             if user.bio is not "<MissingValue>":
                 user_bio = user.bio # store user bio if not empty
             
         # Run open face in whole dir
-        process_pics(in_dir='comparison/' + str(token) + '/')
+        process_pics(in_dir=download_dir)
         
         # Determine if similarity meets the threshold
-        batch_compare(BASE_FOLDER + str(token) + '.csv', 'comparison/' + str(token))
+        batch_compare(BASE_FOLDER + str(token) + '.csv', download_dir)
         # Swipe right or left
         # Send best picture in comparison dir
         # For picture in comparison dir, delete picture and corresponding pic in processed
