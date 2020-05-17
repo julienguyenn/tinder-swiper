@@ -7,9 +7,6 @@ from flask import Flask, request, render_template, jsonify
 import os
 from os import path, rename
 from pathlib import Path
-<<<<<<< HEAD
-# from openface_api.wrapper import process_pics
-=======
 import base64
 
 import glob
@@ -17,18 +14,13 @@ import pandas as pd
 import numpy as np
 
 from openface_api.wrapper import process_pics
->>>>>>> bf1d96b71651b98b04a4e473b4fe8ac314e28fbb
 import glob
 import pandas as pd
 import numpy as np
 import sys
 
-<<<<<<< HEAD
-# import tinder_api.session
-=======
 sys.path.insert(0, 'tinder_api')
 import tinder_api.session
->>>>>>> bf1d96b71651b98b04a4e473b4fe8ac314e28fbb
 
 # Any distance value below this will be liked
 SIM_THRESHOLD = 300
@@ -52,17 +44,17 @@ def root():
 #   Token is a hash of the image sent (sha1? murmur2?)
 @app.route('/matches', methods=['POST'])
 def matches() -> None:
-    # file = request.files['file']
-    # if file and '.' in file.filename:
-    #     # Create a hash and save it
-    #     token = str(hash(file))
-    #     filename = token + '.' + file.filename.rsplit('.', 1)[1]
-    #     Path(BASE_FOLDER).mkdir(parents=True, exist_ok=True)
-    #     filepath = BASE_FOLDER + filename
-    #     file.save(filepath)
+    file = request.files['file']
+    if file and '.' in file.filename:
+        # Create a hash and save it
+        token = str(hash(file))
+        filename = token + '.' + file.filename.rsplit('.', 1)[1]
+        Path(BASE_FOLDER).mkdir(parents=True, exist_ok=True)
+        filepath = BASE_FOLDER + filename
+        file.save(filepath)
 
-    #     # Create a base image
-    #     process_pics(filepath)
+        # Create a base image
+        process_pics(filepath)
 
         # Move the csv into base
         processed_file = token + '.csv'
