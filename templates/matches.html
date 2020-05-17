@@ -86,24 +86,24 @@
       var user = '{{ token }}'
       var interval;
       function findMatches() {
-        console.log("fetching api")
-        $.get(`/api/match?token=${user}`, (data, status) => console.log("look at this winston:", data))
+        // print("fetching api")
+        // $.get(`/api/match?token=${user}`, (data, status) => print("look at this winston:", data))
 
-        // interval = setInterval(() => {
-        //   $.get(`/api/match?token=${user}`, (data, status) => print(data))
-        //   // .then((res) => console.log(res))
-        //   // .then(function (res) {
+        interval = setInterval(async () => {
+          await $.get(`/api/match?token=${user}`, (data, status) => console.log(data))
+          // .then((res) => console.log(res))
+          // .then(function (res) {
 
-        //   //   $(document).ready(function() {
-        //   //     $('#match-photo').attr("src", !PIC!);
-        //   //     $('#match-name').text(!TEXT!);
+          //   $(document).ready(function() {
+          //     $('#match-photo').attr("src", !PIC!);
+          //     $('#match-name').text(!TEXT!);
 
-        //   //     $('#bottom').children()
+          //     $('#bottom').children()
 
 
-        //   //   })
-        //   // })
-        // }, 2000);
+          //   })
+          // })
+        }, 1500);
       }
 
       function stopFind() {
