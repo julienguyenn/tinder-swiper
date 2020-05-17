@@ -1,0 +1,66 @@
+body{
+    margin: 0;
+    overflow: hidden; 
+    font-family: "Open Sans",sans-serif;
+}
+#nav{
+    height: 125px;
+    display: flex;
+ 
+}
+
+#logo{
+    width: 27%;
+}
+
+#header{
+    margin-left: 150px;
+    margin-top: 45px;
+    font-size: 20.82pt;
+    color: gray;
+    font-weight: 100;
+}
+
+.main{
+    background: #1AAEE4;
+    height: 897px;
+    padding: 2%;
+}
+
+.top{
+    display: flex;
+
+}
+
+.middle{
+    width: 600px;
+    margin-left: 166px;
+    display: flex;
+    justify-content: space-between;
+    color:darkslategray;
+    font-size: 17pt;
+}
+
+.middle p{
+    margin: 0;
+}
+
+.bottom{
+    background: white;
+    height: 200px;
+}
+
+.picture {
+    width: 100%;
+    height: 100%;
+}
+
+.frame{
+    border: 10px solid white;
+    border-radius: 25px;
+    box-shadow: 6px 13px 16px 3px black;
+    height: 400px;
+    width: 350px;
+    margin: 50px;
+    overflow: hidden;
+}

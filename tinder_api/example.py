@@ -2,7 +2,6 @@ import session
 import itertools
 from datetime import datetime
 import os
-#import urllib
 import wget
 
 sess = session.Session() # inits the session
@@ -29,7 +28,7 @@ for user in itertools.islice(sess.yield_users(), 10):
         print(user.bio)
     # print(user.like()) # returns false if not a match
     print('# of photos:', len(user.photos))
-    #download_image(user.photos, user.name)
+    download_image(user.photos, user.name)
 
 
 #for match in sess.yield_matches():
