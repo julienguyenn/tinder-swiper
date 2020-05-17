@@ -65,38 +65,32 @@
     <script>
       var user = '{{ token }}'
       var interval;
+      var ready = true;
       function findMatches() {
-        console.log("fetching api")
-        $.get(`/api/match?token=${user}`)
-        .then((res) => {
-          console.log(res)
-          $(document).ready(function() {
-            $('#match-photo').attr("src", res.pic);
-            $('#match-name').text(res.name);
-            const info = $('#bottom').children()
-            info.eq(0).text(`Name: ${res.name}`);
-            info.eq(1).text(`Age: ${res.age}`);
-            info.eq(2).text(`Gender: ${res.gender}`);
-            info.eq(3).text(`Bio: ${res.bio}`);
-            $('.metric').children().eq(2).text(`LIKED?: ${res.liked}`)
-        })})}
-
-        // interval = setInterval(async () => {
-        //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
-        //   // .then((res) => console.log(res))
-        //   // .then(function (res) {
-
-        //   //   $(document).ready(function() {
-        //   //     $('#match-photo').attr("src", !PIC!);
-        //   //     $('#match-name').text(!TEXT!);
-
-        //   //     $('#bottom').children()
-
-
-        //   //   })
-        //   // })
-        // }, 100);
-      // }
+        ready = true;
+        interval = setInterval(async () => {
+          if(ready == true) {
+            ready = false;
+            console.log("fetching api")
+            $.get(`/api/match?token=${user}`)
+            .then((res) => {
+              console.log(res)
+              $(document).ready(function() {
+                $('#match-photo').attr("src", res.pic);
+                $('#match-name').text(res.name);
+                const info = $('#bottom').children()
+                info.eq(0).text(`Name: ${res.name}`);
+                info.eq(1).text(`Age: ${res.age}`);
+                info.eq(2).text(`Gender: ${res.gender}`);
+                info.eq(3).text(`Bio: ${res.bio}`);
+                $('.metric').children().eq(2).text(`LIKED?: ${res.liked}`)
+                ready = true;
+            })})
+          } else {
+            console.log("Waiting another second for server to be ready");
+          }
+        }, 1000);
+      }
 
       function stopFind() {
         clearInterval(interval);
