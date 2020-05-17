@@ -1,9 +1,9 @@
 '''
 python -m pip install -U pip
-python -m pip install -U flask python-dateutil wget
+python -m pip install -U flask python-dateutil wget pandas numpy
 '''
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 import os
 from os import path, rename
 from pathlib import Path
@@ -16,7 +16,9 @@ from openface_api.wrapper import process_pics
 import glob
 import pandas as pd
 import numpy as np
+import sys
 
+sys.path.insert(0, 'tinder_api')
 import tinder_api.session
 
 STATIC_FOLDER = 'static/'
@@ -35,7 +37,7 @@ def root():
 
 # Respond with token that the user can use to acess a preview of the profiles in real time
 #   Token is a hash of the image sent (sha1? murmur2?)
-@app.route('/matches', methods=['GET'])
+@app.route('/matches', methods=['POST'])
 def matches() -> None:
     file = request.files['file']
     if file and '.' in file.filename:
@@ -50,10 +52,10 @@ def matches() -> None:
         process_pics(filepath)
 
         # Move the csv into base
-        processed_file = PROCESSED_FOLDER + token + 'csv'
-        os.rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
+        processed_file = token + '.csv'
+        rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
                 
-        return app.send_static_file('markup/matches.html')
+        return render_template('templates/matches.html', token=token, image=filepath)
     else:
         return 'Image not recieved', 400
 
