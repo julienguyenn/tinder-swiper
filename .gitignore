@@ -1,6 +1,6 @@
 OpenFace_2.2.0_win_x64/
 base/
-
+test/
 
 # Dev env files
 .DS_Store
