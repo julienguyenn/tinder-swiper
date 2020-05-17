@@ -54,7 +54,6 @@ def match():
         # Swipe right or left
         # Send best picture in comparison dir
         # For picture in comparison dir, delete picture and corresponding pic in processed
-    
 
 
 def compare(base_fp: str, comparison_fp: str) -> float:
