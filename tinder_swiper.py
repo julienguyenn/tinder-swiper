@@ -70,7 +70,7 @@ def match() -> None:
         
         # Download pictures to /comparison/token/token{0-X}
         for user in itertools.islice(sess.yield_users(), 1):
-            download_image(user.photos, token, COMPARISON_FOLDER + str(token) '/'+ '_' + )
+            download_image(user.photos, token, COMPARISON_FOLDER + str(token) + '/')
             
             user_name = user.name # store user name
             if user.bio is not "<MissingValue>":
@@ -120,4 +120,4 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
 if __name__ == "__main__":
-    pass
+    app.run()
