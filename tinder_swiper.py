@@ -76,6 +76,7 @@ def match() -> None:
         Path(download_dir).mkdir(parents=True, exist_ok=True)
         
         # Get info for one user
+        print('Token:', token)
         print('Yielding user info...')
         user = next(sess.yield_users())
         
@@ -84,9 +85,9 @@ def match() -> None:
         age = user.age
         gender = user.gender
         bio = user.bio if type(user.bio) == str else ""
-        #bio = ""
         pic = ""
         liked = False
+        matched = False
         dist_val = -10
         
         # Download pictures to /comparison/token/token{0-X}
@@ -118,12 +119,15 @@ def match() -> None:
             pic = base64_encode(download_dir + sim_results[0] + '.jpg')
             print('Like', sim_results)
             dist_val = sim_results[1]
-            user.like()
+            matched = user.like()
             liked = True
+            
+        # Generate a likelihood percentage based off dist_val
+        match_percent = match_likelihood(dist_val)
                      
         # Send JSON
         return_json = {}
-        user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked', 'dist_val']
+        user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked', 'dist_val', 'matched', 'match_percent']
         for v in user_info: 
             return_json[v] = eval(v)
         
@@ -195,6 +199,12 @@ def base64_encode(in_file: str) -> str:
     with open(in_file, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()) 
     return "data:image/jpeg;base64," + str(encoded_string)[2:-1]
+
+def match_likelihood(dist_val):
+    if dist_val < 0:
+        return 0
+    else:
+        return  700 / (dist_val + 700)
 
 if __name__ == "__main__":
     app.run()
