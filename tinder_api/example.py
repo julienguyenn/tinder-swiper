@@ -16,7 +16,7 @@ def download_image(imageList, name, ddir):
         output and downloads them into a directory.
     """
     for i, image in enumerate(imageList):
-        wget.download(image, out= ddir + str(name + '_' +str(i)) + '.jpg')
+        wget.download(image, out=ddir + str(name) + '_' + str(i) + '.jpg')
 
 for user in itertools.islice(sess.yield_users(), 1):
     print(user.name) # prints the name of the user see __init__
