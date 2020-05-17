@@ -67,7 +67,11 @@
       function findMatches() {
         console.log("fetching api")
         $.get(`/api/match?token=${user}`)
-        .then((res) => console.log("OUR JSON:", res.data))
+        .then((res) => {
+          $(document).ready(function() {
+            $('#match-photo').attr("src", res.pic);
+            $('#match-name').text(res.name);
+        })
 
         // interval = setInterval(async () => {
         //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
