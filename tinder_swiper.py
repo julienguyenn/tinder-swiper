@@ -33,6 +33,8 @@ COMPARISON_FOLDER = 'comparison/'
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
 
+token_count = 0
+
 # sess = tinder_api.session.Session()
 
 @app.route('/')
@@ -44,10 +46,13 @@ def root():
 #   Token is a hash of the image sent (sha1? murmur2?)
 @app.route('/matches', methods=['POST'])
 def matches() -> None:
+    global token_count
+    
     file = request.files['file']
     if file and '.' in file.filename:
         # Create a hash and save it
-        token = str(hash(file))
+        token_count += 1
+        token = str(token_count)
         filename = token + '.' + file.filename.rsplit('.', 1)[1]
         Path(BASE_FOLDER).mkdir(parents=True, exist_ok=True)
         filepath = BASE_FOLDER + filename
