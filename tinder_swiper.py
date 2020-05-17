@@ -71,18 +71,18 @@ def match() -> None:
         
         Path(COMPARISON_FOLDER).mkdir(parents=True, exist_ok=True)
         download_dir = COMPARISON_FOLDER + str(token) + '/'
-        user_name = ""
-        user_bio = ""
+        # Get info for one user
+        user = next(sess.yield_users())        
+        user_name = user.name
+        user_bio = user.bio 
         liked = False
         
-        # Get info for one user
-        for user in itertools.islice(sess.yield_users(), 1):
-            # Download pictures to /comparison/token/token{0-X}
-            download_image(user.photos, token, COMPARISON_FOLDER + str(token) + '/')
-            # Store user name
-            user_name = user.name 
-            # Store user bio
-            user_bio = user.bio 
+        # Download pictures to /comparison/token/token{0-X}
+        download_image(user.photos, token, download_dir)
+        # Store user name
+        
+        # Store user bio
+        
             
         # Run open face in whole dir
         process_pics(in_dir=download_dir)
@@ -92,9 +92,9 @@ def match() -> None:
         
         # Swipe right or left
         if sim_results == -1:
-            user.pass()
+            user.dislike()
         elif sim_results[1] >= SIM_THRESHOLD:
-            user.pass()
+            user.dislike()
         elif sim_results[1] < SIM_THRESHOLD:
             user.like()
             liked = True
