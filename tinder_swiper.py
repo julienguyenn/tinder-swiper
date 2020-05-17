@@ -83,16 +83,18 @@ def match() -> None:
         name = user.name
         age = user.age
         gender = user.gender
-        #bio = user.bio if str(user.bio) is not '<MissingValue>' else ""
-        bio = ""
+        bio = user.bio if type(user.bio) == str else ""
+        #bio = ""
         pic = ""
         liked = False
         dist_val = -10
         
         # Download pictures to /comparison/token/token{0-X}
+        print('Downloading {0} pics...'.format(len(user.photos)))
         download_image(user.photos, token, download_dir)
         
         # Run open face in whole dir
+        print('Processing pics...')
         process_pics(in_dir=download_dir, verbose=False)
         
         # Determine the similarity score
@@ -102,28 +104,19 @@ def match() -> None:
         # this indicates that there were no faces detected in any of the user's photos
         if sim_results == -1: 
             pic = base64_encode(download_dir + str(token) + '_0.jpg')
-            print()
             print('No face', sim_results)
-            print(download_dir + str(token) + '_0.jpg')
-            print()
             dist_val = sim_results
             user.dislike()
             
         elif sim_results[1] >= SIM_THRESHOLD:
             pic = base64_encode(download_dir + sim_results[0] + '.jpg')
-            print()
             print('Dislike', sim_results)
-            print(download_dir + sim_results[0] + '.jpg')
-            print()
             user.dislike()
             dist_val = sim_results[1]
             
         elif sim_results[1] < SIM_THRESHOLD:
             pic = base64_encode(download_dir + sim_results[0] + '.jpg')
-            print()
             print('Like', sim_results)
-            print(download_dir + sim_results[0] + '.jpg')
-            print()
             dist_val = sim_results[1]
             user.like()
             liked = True
@@ -149,6 +142,7 @@ def match() -> None:
         except:
             print('Error while deleting file: ' + download_dir)
         
+        print()
         return jsonify(return_json)
 
 def compare(base_fp: str, comparison_fp: str) -> float:
@@ -188,12 +182,12 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
-def download_image(img_lst, name, ddir, pic_limit):
+def download_image(img_lst, name, ddir, pic_limit=8):
     """ This function takes in a list of images, along with a name for the 
         output and downloads them into a directory.
     """
     for i, img_link in enumerate(img_lst):
-        if pic_limit - 1 == i:
+        if i == pic_limit - 1:
             break
         urllib.request.urlretrieve(img_link, ddir + str(name) + '_' + str(i) + '.jpg')
 
