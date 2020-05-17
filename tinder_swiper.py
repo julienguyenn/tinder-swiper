@@ -134,7 +134,7 @@ def compare(base_fp: str, comparison_fp: str) -> float:
         lowest distance if there are multiple faces.
         Base and comparison are filepaths to CSVs.
     """
-    base_arr = pd.read_csv(base_fp).loc[:, ' x_0':' y_67'].values
+    base_arr = pd.read_csv(base_fp).loc[0, ' x_0':' y_67'].values
     comparison_arr = pd.read_csv(comparison_fp).loc[:, ' x_0':' y_67'].values
     
     if comparison_arr.shape[0] == 1:
@@ -168,9 +168,8 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
 
 def base64_encode(in_file: str) -> str:
     with open(in_file, "rb") as image_file:
-        encoded_string = base64.b64encode(image_file.read())
-        
-    return encoded_string
+        encoded_string = base64.b64encode(image_file.read()) 
+    return str(encoded_string)[2:-1]
 
 if __name__ == "__main__":
     app.run()
