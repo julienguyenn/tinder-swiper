@@ -2,7 +2,6 @@
 <html>
   <head>
     <link rel="stylesheet" href="static/style/matches.css">
-
     <title>
       Matches
     </title>
@@ -41,6 +40,20 @@
 
         <div class='metric'>
           {{ token }}
+          <button onclick="findMatches()">Start</button>
+          <button onclick="stopFind()">Stop</button>
+          <script>
+            var interval;
+            function findMatches() {
+              interval = setInterval(() => {
+                console.log("yay")
+              }, 1000);
+            }
+
+            function stopFind() {
+              clearInterval(interval);
+            }
+          </script>
         </div>
 
       </div>
