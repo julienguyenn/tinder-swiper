@@ -78,7 +78,7 @@ html, body{
     margin: 25px 33px 0 0;
 }
 
-#metric p {
+#like-result {
     margin: 17px 0 0 0;
     flex-grow: 0.2;
     text-align: center;
@@ -87,10 +87,16 @@ html, body{
 
 #current-state {
     flex-grow: 2;
+    flex-direction: column;
     background-image: url('../images/start-placeholder.png');
     background-size: contain;
+    text-align: center;
     background-position: center;
     background-repeat: no-repeat;
+    font-size: 4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #start-stop-buttons {
@@ -130,4 +136,15 @@ html, body{
   @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+  }
+
+  #matched-box {
+    border-radius: 30px;
+    background: #00af00;
+    font-size: 0.6em;
+    margin-bottom: 15px;
+  }
+
+  .found-match-result {
+    padding: 9px;
   }

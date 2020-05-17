@@ -40,14 +40,14 @@
 
         <div id="metric">
           <div id="current-state">
-            
+            <div id="matched-box"></div>
           </div>
           <div id="start-stop-buttons">
             <button class="control-button" onclick="findMatches()">Start</button>
             <div id="loading"></div>
             <button class="control-button" onclick="stopFind()">Stop</button>
           </div>
-          <p></p>
+          <p id="like-result"></p>
         </div>
 
       </div>
@@ -71,51 +71,57 @@
     <script>
       var user = '{{ token }}'
       var interval;
+      var ready = true;
       function findMatches() {
-        const res = {name: 'Julie', age: 22, gender: 'female', bio: 'hi', liked: false}
-        console.log("fetching api")
         $('#loading').addClass("loader")
-        // $.get(`/api/match?token=${user}`)
-        // .then((res) => {
-        //   console.log(res)
-          $(document).ready(function() {
-            $('#match-photo').attr("src", res.pic);
-            $('#match-name').text(res.name);
-            const info = $('#bottom').children()
-            info.eq(0).text(`Name: ${res.name}`);
-            info.eq(1).text(`Age: ${res.age}`);
-            info.eq(2).text(`Gender: ${res.gender}`);
-            info.eq(3).text(`Bio: ${res.bio}`);
+        $('#current-state').css("background-image", "../static/images/start-placeholder.png")
+        if (!interval)
+          interval = setInterval(async () => {
+            if(ready == true) {
+              ready = false;
+              console.log("fetching api")
+              $.get(`/api/match?token=${user}`)
+              .then((res) => {
+                console.log(res)
+                $(document).ready(function() {
+                  $('#match-photo').attr("src", res.pic);
+                  $('#match-name').text(res.name);
+                  const info = $('#bottom').children()
+                  info.eq(0).text(`Name: ${res.name}`);
+                  info.eq(1).text(`Age: ${res.age}`);
+                  info.eq(2).text(`Gender: ${res.gender}`);
+                  info.eq(3).text(`Bio: ${res.bio}`);
+                  $("#matched-box").addClass('found-match-result')
+                  $("#current-state").css("background-image", "none");
+                  $("#current-state").css("flex-grow", "0.7");
+                  $("#current-state").append(`${(res.matched_percent * 100).toFixed(0)}% <br> Similiar`)
+                  ready = true;
 
-            if (res.liked) {
-              $('#metric').children().eq(2).text(`${res.name} was liked`)
+                  if (res.matched) {
+                    $("#matched-box").text('Matched')
+                  } else {
+                    $("#matched-box").text('Not Matched')
+                    $("#matched-box").css('background', 'red')
+                  }
+
+                  if (res.liked) {
+                    $('#metric').children().eq(2).text(`${res.name} was liked`)
+                  } else {
+                    $('#metric').children().eq(2).text(`${res.name} was not liked`)
+                  }
+
+
+              })})
             } else {
-              $('#metric').children().eq(2).text(`${res.name} was not liked`)
+              console.log("Server not ready, waiting another 100ms");
             }
-            })}
-        //   })
-        // }
-
-        // interval = setInterval(async () => {
-        //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
-        //   // .then((res) => console.log(res))
-        //   // .then(function (res) {
-
-        //   //   $(document).ready(function() {
-        //   //     $('#match-photo').attr("src", !PIC!);
-        //   //     $('#match-name').text(!TEXT!);
-
-        //   //     $('#bottom').children()
-
-
-        //   //   })
-        //   // })
-        // }, 100);
-      // }
+          }, 100);
+      }
 
       function stopFind() {
         $('#loading').removeClass("loader")
         clearInterval(interval);
+        interval = null;
       }
     </script>
   </body>

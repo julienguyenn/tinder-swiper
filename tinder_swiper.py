@@ -36,6 +36,9 @@ COMPARISON_FOLDER = 'comparison/'
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
 
+token_dict = {}
+
+
 # sess = tinder_api.session.Session()
 
 @app.route('/')
@@ -47,37 +50,41 @@ def root():
 #   Token is a hash of the image sent (sha1? murmur2?)
 @app.route('/matches', methods=['POST'])
 def matches() -> None:
-    # file = request.files['file']
-    # if file and '.' in file.filename:
-    #     # Create a hash and save it
-    #     token = str(hash(file))
-    #     filename = token + '.' + file.filename.rsplit('.', 1)[1]
-    #     Path(BASE_FOLDER).mkdir(parents=True, exist_ok=True)
-    #     filepath = BASE_FOLDER + filename
-    #     file.save(filepath)
+    file = request.files['file']
+    if file and '.' in file.filename:
+        # Create a hash and save it
+        token = str(hash(file))
+        filename = token + '.' + file.filename.rsplit('.', 1)[1]
+        Path(BASE_FOLDER).mkdir(parents=True, exist_ok=True)
+        filepath = BASE_FOLDER + filename
+        file.save(filepath)
 
-    #     # Create a base image
-    #     process_pics(filepath, verbose=False)
+        # Create a base image
+        process_pics(filepath, verbose=False)
 
-    #     # Move the csv into base
-    #     processed_file = token + '.csv'
-    #     rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
+        # Move the csv into base
+        processed_file = token + '.csv'
+        rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
 
-    #     base64_image = base64_encode(filepath)        
-    #     return render_template('matches.html', token=token, image=base64_image)
-    # else:
-    #     return 'Image not recieved', 400
-    return render_template('matches.html')
+        base64_image = base64_encode(filepath)        
+        return render_template('matches.html', token=token, image=base64_image)
+    else:
+        return 'Image not recieved', 400
 
 
 @app.route('/api/match', methods=['GET'])
 def match() -> None:
     token = request.args['token']
     if token:
+        if token in token_dict and token_dict[token] == True:
+            return 'Previous request in progress', 400
+        token_dict[token] = True
+        
         download_dir = COMPARISON_FOLDER + str(token) + '/'
         Path(download_dir).mkdir(parents=True, exist_ok=True)
         
         # Get info for one user
+        print('Token:', token)
         print('Yielding user info...')
         user = next(sess.yield_users())
         
@@ -88,6 +95,7 @@ def match() -> None:
         bio = user.bio if type(user.bio) == str else ""
         pic = ""
         liked = False
+        matched = False
         dist_val = -10
         
         # Download pictures to /comparison/token/token{0-X}
@@ -119,12 +127,15 @@ def match() -> None:
             pic = base64_encode(download_dir + sim_results[0] + '.jpg')
             print('Like', sim_results)
             dist_val = sim_results[1]
-            user.like()
+            matched = user.like()
             liked = True
+            
+        # Generate a likelihood percentage based off dist_val
+        match_percent = match_likelihood(dist_val)
                      
         # Send JSON
         return_json = {}
-        user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked', 'dist_val']
+        user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked', 'dist_val', 'matched', 'match_percent']
         for v in user_info: 
             return_json[v] = eval(v)
         
@@ -144,6 +155,7 @@ def match() -> None:
             print('Error while deleting file: ' + download_dir)
         
         print()
+        token_dict[token] = False
         return jsonify(return_json)
 
 def compare(base_fp: str, comparison_fp: str) -> float:
@@ -196,6 +208,12 @@ def base64_encode(in_file: str) -> str:
     with open(in_file, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()) 
     return "data:image/jpeg;base64," + str(encoded_string)[2:-1]
+
+def match_likelihood(dist_val):
+    if dist_val < 0:
+        return 0
+    else:
+        return  700 / (dist_val + 700)
 
 if __name__ == "__main__":
     app.run()
