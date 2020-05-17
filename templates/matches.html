@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="static/style/matches.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <title>
       Matches
     </title>
@@ -31,7 +32,7 @@
 
         <div class="display-box">
           <div class='frame'>
-            <img class='picture', src="static/images/Anna2.jpeg">
+            <img id="match-photo" class='picture' src="static/images/Anna2.jpeg">
           </div>
           <p>
             Anna2.jpeg
@@ -41,22 +42,21 @@
         <div class='metric'>
           <button onclick="findMatches()">Start</button>
           <button onclick="stopFind()">Stop</button>
-          {% var user = token %}
           <script>
+            var user = '{{ token }}'
             var interval;
             function findMatches() {
               interval = setInterval(() => {
-                console.log("yay");
+                makeRequest()
+                .then((res) => console.log(res))
+                // .then(function (res) {
+                //   $('#match-photo').attr("src", )
+                // })
               }, 1000);
             }
 
             function makeRequest() {
-              $.ajax({
-                type: "GET",
-                url: "/api/match",
-                data: user,
-                success: (res) => console.log(res)
-              })
+              $.get(`/api/match/token=${user}`)
             }
 
             function stopFind() {
