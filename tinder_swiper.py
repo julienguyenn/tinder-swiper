@@ -1,6 +1,8 @@
 '''
 python -m pip install -U pip
-python -m pip install -U flask python-dateutil pandas numpy
+python -m pip install -U flask python-dateutil wget pandas numpy
+Download 64 bit OpenFace: https://github.com/TadasBaltrusaitis/OpenFace/wiki/Windows-Installation
+Right click "download_models.ps1" and run with powershell
 '''
 
 from flask import Flask, request, render_template, jsonify
@@ -63,9 +65,9 @@ def matches() -> None:
     else:
         return 'Image not recieved', 400
 
-#@app.route('/api/match', methods=['GET'])
-def match(token: int) -> None:
-    #token = request.args['token']
+@app.route('/api/match', methods=['GET'])
+def match() -> None:
+    token = request.args['token']
     if token:
         # Init session
         sess = session.Session()
@@ -174,7 +176,7 @@ def download_image(img_lst, name, ddir):
 def base64_encode(in_file: str) -> str:
     with open(in_file, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()) 
-    return str(encoded_string)[2:-1]
+    return "data:image/jpeg;base64," + str(encoded_string)[2:-1]
 
 if __name__ == "__main__":
     app.run()
