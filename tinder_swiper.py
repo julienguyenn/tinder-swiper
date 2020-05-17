@@ -22,6 +22,9 @@ import shutil
 sys.path.insert(0, 'tinder_api')
 import tinder_api.session as session
 
+# Init session
+sess = session.Session()
+
 # Any distance value below this will be liked
 SIM_THRESHOLD = 300
 
@@ -69,18 +72,17 @@ def matches() -> None:
 def match() -> None:
     token = request.args['token']
     if token:
-        # Init session
-        sess = session.Session()
-        
         download_dir = COMPARISON_FOLDER + str(token) + '/'
         Path(download_dir).mkdir(parents=True, exist_ok=True)
         
         # Get info for one user
-        user = next(sess.yield_users())        
+        user = next(sess.yield_users())
+        
+        # Store their info
         name = user.name
         age = user.age
         gender = user.gender
-        bio = user.bio
+        bio = user.bio if user.bio is not "<MissingValue>" else ""
         pic = ""
         liked = False
         
@@ -96,15 +98,25 @@ def match() -> None:
         # Swipe right or left and select best pic to send
         # this indicates that there were no faces detected in any of the user's photos
         if sim_results == -1: 
-            pic = base64_encode(download_dir + str(token) + '_0.jpg')
+            #pic = base64_encode(download_dir + str(token) + '_0.jpg')
+            print('\n')
+            print('No face', sim_results)
+            print('\n')
+            
             user.dislike()
             
         elif sim_results[1] >= SIM_THRESHOLD:
-            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            #pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            print('\n')
+            print('Dislike', sim_results)
+            print('\n')
             user.dislike()
             
         elif sim_results[1] < SIM_THRESHOLD:
-            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            #pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            print('\n')
+            print('Like', sim_results)
+            print('\n')
             user.like()
             liked = True
                      
