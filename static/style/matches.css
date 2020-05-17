@@ -71,11 +71,23 @@ html, body{
 #metric {
     display: flex;
     flex-direction: column;
-    border: 1px solid;
     flex-grow: 1;
-    margin: 25px 33px 38px 0;
+    margin: 25px 33px 0 0;
+}
+
+#metric p {
+    margin: 17px 0 0 0;
+    flex-grow: 0.2;
+    text-align: center;
+    color: darkslategray;
 }
 
 #current-state {
     flex-grow: 2;
 }
+
+#start-stop-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
