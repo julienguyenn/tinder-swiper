@@ -59,13 +59,23 @@ def matches() -> None:
         file.save(filepath)
 
         # Create a base image
-        process_pics(filepath)
+        process_pics(filepath, csv_only=False)
 
-        # Move the csv into base
+        # Move the csv and into base
         processed_file = token + '.csv'
         rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
 
-        base64_image = base64_encode(filepath)        
+        base64_image = base64_encode(PROCESSED_FOLDER + filename)
+
+        # Delete files in processed
+        files_to_del = glob.glob(PROCESSED_FOLDER + str(token) + '*')
+        for fp in files_to_del:
+            try:
+                remove(fp)
+            except:
+                print('Error while deleting file: ' + fp)
+
+        
         return render_template('matches.html', token=token, image=base64_image)
     else:
         return 'Image not recieved', 400
@@ -194,7 +204,7 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
-def download_image(img_lst, name, ddir, pic_limit=8):
+def download_image(img_lst, name, ddir, pic_limit=3):
     """ This function takes in a list of images, along with a name for the 
         output and downloads them into a directory.
     """
