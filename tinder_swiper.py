@@ -169,7 +169,7 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
 def base64_encode(in_file: str) -> str:
     with open(in_file, "rb") as image_file:
         encoded_string = base64.b64encode(image_file.read()) 
-    return str(encoded_string)[2:-1]
+    return "data:image/jpeg;base64," + str(encoded_string)[2:-1]
 
 if __name__ == "__main__":
     app.run()
