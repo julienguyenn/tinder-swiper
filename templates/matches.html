@@ -41,27 +41,6 @@
         <div class='metric'>
           <button onclick="findMatches()">Start</button>
           <button onclick="stopFind()">Stop</button>
-          <script>
-            var user = '{{ token }}'
-            var interval;
-            function findMatches() {
-              interval = setInterval(() => {
-                makeRequest()
-                .then((res) => console.log(res))
-                // .then(function (res) {
-                //   $('#match-photo').attr("src", )
-                // })
-              }, 5000);
-            }
-
-            function makeRequest() {
-              $.get(`/api/match?token=${user}`)
-            }
-
-            function stopFind() {
-              clearInterval(interval);
-            }
-          </script>
         </div>
 
       </div>
@@ -86,24 +65,25 @@
       var user = '{{ token }}'
       var interval;
       function findMatches() {
-        // print("fetching api")
-        // $.get(`/api/match?token=${user}`, (data, status) => print("look at this winston:", data))
+        console.log("fetching api")
+        $.get(`/api/match?token=${user}`)
+        .then((res) => console.log("OUR JSON:", res.data))
 
-        interval = setInterval(async () => {
-          await $.get(`/api/match?token=${user}`, (data, status) => console.log(data))
-          // .then((res) => console.log(res))
-          // .then(function (res) {
+        // interval = setInterval(async () => {
+        //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
+        //   // .then((res) => console.log(res))
+        //   // .then(function (res) {
 
-          //   $(document).ready(function() {
-          //     $('#match-photo').attr("src", !PIC!);
-          //     $('#match-name').text(!TEXT!);
+        //   //   $(document).ready(function() {
+        //   //     $('#match-photo').attr("src", !PIC!);
+        //   //     $('#match-name').text(!TEXT!);
 
-          //     $('#bottom').children()
+        //   //     $('#bottom').children()
 
 
-          //   })
-          // })
-        }, 1500);
+        //   //   })
+        //   // })
+        // }, 100);
       }
 
       function stopFind() {
