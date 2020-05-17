@@ -86,8 +86,8 @@
       var user = '{{ token }}'
       var interval;
       function findMatches() {
-        print("fetching api")
-        $.get(`/api/match?token=${user}`, (data, status) => print("look at this winston:", data))
+        console.log("fetching api")
+        $.get(`/api/match?token=${user}`, (data, status) => console.log("look at this winston:", data))
 
         // interval = setInterval(() => {
         //   $.get(`/api/match?token=${user}`, (data, status) => print(data))
