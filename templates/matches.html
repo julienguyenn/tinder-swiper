@@ -95,7 +95,8 @@
                   $("#matched-box").addClass('found-match-result')
                   $("#current-state").css("background-image", "none");
                   $("#current-state").css("flex-grow", "0.7");
-                  $("#current-state").append(`${(res.matched_percent * 100).toFixed(0)}% <br> Similiar`)
+                  $("#current-state").append(`${Math.round(parseFloat(res.matched_percent) * 100)}% <br> Similiar`);
+			  console.log(res.match_percent)
                   ready = true;
 
                   if (res.matched) {
