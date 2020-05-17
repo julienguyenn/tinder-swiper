@@ -21,6 +21,9 @@ import sys
 sys.path.insert(0, 'tinder_api')
 import tinder_api.session
 
+# Any distance value below this will be liked
+SIM_THRESHOLD = 300
+
 STATIC_FOLDER = 'static/'
 BASE_FOLDER = 'base/'
 PROCESSED_FOLDER = 'processed/'
@@ -70,21 +73,32 @@ def match() -> None:
         download_dir = COMPARISON_FOLDER + str(token) + '/'
         user_name = ""
         user_bio = ""
+        liked = False
         
-        # Download pictures to /comparison/token/token{0-X}
+        # Get info for one user
         for user in itertools.islice(sess.yield_users(), 1):
+            # Download pictures to /comparison/token/token{0-X}
             download_image(user.photos, token, COMPARISON_FOLDER + str(token) + '/')
-            
-            user_name = user.name # store user name
-            if user.bio is not "<MissingValue>":
-                user_bio = user.bio # store user bio if not empty
+            # Store user name
+            user_name = user.name 
+            # Store user bio
+            user_bio = user.bio 
             
         # Run open face in whole dir
         process_pics(in_dir=download_dir)
         
-        # Determine if similarity meets the threshold
-        batch_compare(BASE_FOLDER + str(token) + '.csv', download_dir)
+        # Determine the similarity score
+        sim_results = batch_compare(BASE_FOLDER + str(token) + '.csv', PROCESSED_FOLDER)
+        
         # Swipe right or left
+        if sim_results == -1:
+            user.pass()
+        elif sim_results[1] >= SIM_THRESHOLD:
+            user.pass()
+        elif sim_results[1] < SIM_THRESHOLD:
+            user.like()
+            liked = True
+        
         # Send best picture in comparison dir
         # For picture in comparison dir, delete picture and corresponding pic in processed
 
@@ -115,10 +129,14 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
         The tuple contains the comparison csv that is the most similar to base.
     """
     results = {}
+    comparison_csv_lst = glob.glob(comparison_dir + '/*.csv')
     
-    for comparison_csv in glob.glob(comparison_dir + '/*.csv'):
-        filename = os.path.split(comparison_csv)[1].split('.')[0]
-        results[filename] = compare(base_fp, comparison_csv)
+    if not comparison_csv_lst:
+        return -1
+    else:
+        for comparison_csv in comparison_csv_lst:
+            filename = os.path.split(comparison_csv)[1].split('.')[0]
+            results[filename] = compare(base_fp, comparison_csv)
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
