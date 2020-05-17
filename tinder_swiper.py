@@ -2,15 +2,19 @@ from flask import Flask, request
 import os
 from os import path, rename
 from pathlib import Path
+
 import glob
 import pandas as pd
 import numpy as np
-from openface_api.wrapper import process_pics
 
+from openface_api.wrapper import process_pics
+from tinder_api import session
+from tinder_api.example import download_image
 
 STATIC_FOLDER = 'static/'
 BASE_FOLDER = 'base/'
 PROCESSED_FOLDER = 'processed/'
+COMPARISON_FOLDER = 'comparison/'
 
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
@@ -47,10 +51,24 @@ def matches():
 def match():
     token = request.args['token']
     if token:
-        pass
-        # Get profile and pictures from tinder api
-        # Store pictures in /comparison/token/token{0-X}.jpg
+        # Init session
+        sess = session.Session()
+        user_name = ""
+        user_bio = ""
+        
+        # Download pictures to /comparison/token/token{0-X}
+        for user in itertools.islice(sess.yield_users(), 1):
+            download_image(user.photos, token, COMPARISON_FOLDER + str(token) '/'+ '_' + )
+            
+            user_name = user.name # store user name
+            if user.bio is not "<MissingValue>":
+                user_bio = user.bio # store user bio if not empty
+            
         # Run open face in whole dir
+        process_pics(in_dir='comparison/' + str(token) + '/')
+        
+        # Determine if similarity meets the threshold
+        batch_compare(BASE_FOLDER + str(token) + '.csv', 'comparison/' + str(token))
         # Swipe right or left
         # Send best picture in comparison dir
         # For picture in comparison dir, delete picture and corresponding pic in processed
@@ -93,4 +111,4 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
 if __name__ == "__main__":
-    app.run()
+    pass
