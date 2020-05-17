@@ -1,3 +1,0 @@
-Input:images\no_face.jpg
-Input full path:C:\Users\winst\Desktop\tinder-swiper\images\no_face.jpg
-Camera parameters:1042.71,1042.71,572,572
