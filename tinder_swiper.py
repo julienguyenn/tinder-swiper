@@ -75,6 +75,7 @@ def match() -> None:
         
         # Get info for one user
         user = next(sess.yield_users())        
+        # These are the fields we will send as JSON
         name = user.name
         age = user.age
         gender = user.gender
