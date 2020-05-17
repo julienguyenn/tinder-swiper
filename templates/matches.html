@@ -42,12 +42,12 @@
         <div id="metric">
           <div id="current-state">
           </div>
+          <p id="like-result"></p>
           <div id="start-stop-buttons">
             <button class="control-button" onclick="findMatches()">Start</button>
             <div id="loading"></div>
             <button class="control-button" onclick="stopFind()">Stop</button>
           </div>
-          <p id="like-result"></p>
         </div>
 
       </div>
@@ -107,9 +107,11 @@
                   }
 
                   if (res.liked) {
-                    $('#metric').children().eq(2).text(`${res.name} was liked`)
+                    $('#metric').children().eq(1).text(`${res.name} was liked`)
+                    $('#metric').children().eq(1).css('color', 'green')
                   } else {
-                    $('#metric').children().eq(2).text(`${res.name} was not liked`)
+                    $('#metric').children().eq(1).text(`${res.name} was not liked`)
+                    $('#metric').children().eq(1).css('color', 'red')
                   }
 
 

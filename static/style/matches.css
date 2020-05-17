@@ -79,14 +79,13 @@ html, body{
 }
 
 #like-result {
-    margin: 17px 0 0 0;
-    flex-grow: 0.2;
+    margin: 0 0 0 0;
     text-align: center;
     color: darkslategray;
 }
 
 #current-state {
-    flex-grow: 2;
+    flex-grow: .5;
     flex-direction: column;
     background-image: url('../images/start-placeholder.png');
     background-size: contain;
@@ -142,7 +141,6 @@ html, body{
     border-radius: 30px;
     background: #00af00;
     font-size: 0.6em;
-    margin-bottom: 15px;
   }
 
   .found-match-result {
