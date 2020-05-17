@@ -48,6 +48,7 @@
             function findMatches() {
               interval = setInterval(() => {
                 makeRequest()
+                .then((res) => console.log(res))
                 // .then(function (res) {
                 //   $('#match-photo').attr("src", )
                 // })
