@@ -62,32 +62,25 @@
       </div>
     </div>
     <script>
-      var user = '{{ token }}'
+      var user = '{{ token }}';
       var interval;
+      var ready = false
+
       function findMatches() {
-        console.log("fetching api")
-        $.get(`/api/match?token=${user}`)
-        .then((res) => {
-          $(document).ready(function() {
-            $('#match-photo').attr("src", res.pic);
-            $('#match-name').text(res.name);
-        })
-
-        // interval = setInterval(async () => {
-        //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
-        //   // .then((res) => console.log(res))
-        //   // .then(function (res) {
-
-        //   //   $(document).ready(function() {
-        //   //     $('#match-photo').attr("src", !PIC!);
-        //   //     $('#match-name').text(!TEXT!);
-
-        //   //     $('#bottom').children()
-
-
-        //   //   })
-        //   // })
-        // }, 100);
+        ready = true;
+        interval = setInterval(async () => {
+          if(ready == true) {
+            ready = false;
+            console.log("fetching api");
+            $.get(`/api/match?token=${user}`).then((res) => {
+              $(document).ready(function() {
+                $('#match-photo').attr("src", res.pic);
+                $('#match-name').text(res.name);
+                ready = true;
+              })
+            })
+          }
+        }, 100);
       }
 
       function stopFind() {
