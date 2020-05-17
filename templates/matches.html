@@ -34,41 +34,19 @@
           <div class='frame'>
             <img id="match-photo" class='picture' src="static/images/Anna2.jpeg">
           </div>
-          <p>
-            Anna2.jpeg
+          <p id="match-name">
           </p>
         </div>
 
         <div class='metric'>
           <button onclick="findMatches()">Start</button>
           <button onclick="stopFind()">Stop</button>
-          <script>
-            var user = '{{ token }}'
-            var interval;
-            function findMatches() {
-              interval = setInterval(() => {
-                makeRequest()
-                .then((res) => console.log(res))
-                // .then(function (res) {
-                //   $('#match-photo').attr("src", )
-                // })
-              }, 1000);
-            }
-
-            function makeRequest() {
-              $.get(`/api/match/token=${user}`)
-            }
-
-            function stopFind() {
-              clearInterval(interval);
-            }
-          </script>
         </div>
 
       </div>
 
 
-      <div class='bottom'>
+      <div id='bottom'>
         <p>
           Name:
         </p>
@@ -83,6 +61,30 @@
         </p>
       </div>
     </div>
+    <script>
+      var user = '{{ token }}'
+      var interval;
+      function findMatches() {
+        interval = setInterval(() => {
+          $.get(`/api/match/token=${user}`, (data, status) => print(data))
+          // .then((res) => console.log(res))
+          // .then(function (res) {
 
+          //   $(document).ready(function() {
+          //     $('#match-photo').attr("src", !PIC!);
+          //     $('#match-name').text(!TEXT!);
+
+          //     $('#bottom').children()
+
+
+          //   })
+          // })
+        }, 2000);
+      }
+
+      function stopFind() {
+        clearInterval(interval);
+      }
+    </script>
   </body>
 </html>
