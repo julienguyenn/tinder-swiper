@@ -41,6 +41,7 @@
         <div class='metric'>
           <button onclick="findMatches()">Start</button>
           <button onclick="stopFind()">Stop</button>
+          <p></p>
         </div>
 
       </div>
@@ -72,7 +73,13 @@
           $(document).ready(function() {
             $('#match-photo').attr("src", res.pic);
             $('#match-name').text(res.name);
-          })})}
+            const info = $('#bottom').children()
+            info.eq(0).text(`Name: ${res.name}`);
+            info.eq(1).text(`Age: ${res.age}`);
+            info.eq(2).text(`Gender: ${res.gender}`);
+            info.eq(3).text(`Bio: ${res.bio}`);
+            $('.metric').children().eq(2).text(`LIKED?: ${res.liked}`)
+        })})}
 
         // interval = setInterval(async () => {
         //   await $.get(`/api/match?token=${user}`, (data, status) => print(data))
