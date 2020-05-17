@@ -1,15 +1,12 @@
 OpenFace_2.2.0_win_x64/
 base/
-images/
 processed/
-compare_imgs/
+comparison/
 test*
-
 
 # Dev env files
 .DS_Store
 .vscode/
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
