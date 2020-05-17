@@ -39,15 +39,24 @@
         </div>
 
         <div class='metric'>
-          {{ token }}
           <button onclick="findMatches()">Start</button>
           <button onclick="stopFind()">Stop</button>
+          {% var user = token %}
           <script>
             var interval;
             function findMatches() {
               interval = setInterval(() => {
                 console.log("yay");
               }, 1000);
+            }
+
+            function makeRequest() {
+              $.ajax({
+                type: "GET",
+                url: "/api/match",
+                data: user,
+                success: (res) => console.log(res)
+              })
             }
 
             function stopFind() {
