@@ -2,7 +2,6 @@ import session
 import itertools
 from datetime import datetime
 import os
-#import urllib
 import wget
 
 sess = session.Session() # inits the session

@@ -15,7 +15,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px;
+  padding: 88px 40px;
+}
+
+#first-form {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
 }
 
 #logo {
@@ -27,14 +34,19 @@ body {
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin: 40px 0 0 0;
+  margin: 50px 0 0 0;
 }
 
 #second-form {
   display: none;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
+#family {
+  width: 20%;
+}
 
 .text-input {
   margin: 30px 0;
@@ -58,13 +70,25 @@ body {
 
 .button {
   background: #41afe7;
-  width: 100%;
-  height: 50px;
+  width: 72%;
+  height: 55px;
   border-radius: 15px;
   font-size: 18px;
   color: white;
   border: none;
-  margin: 50px 0;
+  margin: 21px 0;
+}
+
+#file {
+  background: #151F2A;
+  width: 80%;
+  border-radius: 15px;
+  font-size: 18px;
+  border: none;
+  color:white;
+  padding: 10px;
+  margin: 20px 0 0 0;
+  text-align: end;
 }
 
 #image-file {
@@ -75,10 +99,11 @@ body {
   background: #41afe7;
   width: 50%;
   height: 50px;
-  border-radius: 15px;
-  font-size: 22px;
+  font-size: 18px;
   color: white;
+  border-radius: 25px;
   border: none;
+  margin-right: 50px;
 }
 
 #right-side {

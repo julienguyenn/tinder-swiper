@@ -33,10 +33,11 @@ COMPARISON_FOLDER = 'comparison/'
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
 
-sess = tinder_api.session.Session()
+# sess = tinder_api.session.Session()
 
 @app.route('/')
 def root():
+    #return app.send_static_file('markup/matches.html')
     return app.send_static_file('markup/tinder_swiper.html')
 
 # Respond with token that the user can use to acess a preview of the profiles in real time
@@ -59,7 +60,7 @@ def matches() -> None:
         processed_file = token + '.csv'
         rename(PROCESSED_FOLDER + processed_file, BASE_FOLDER + processed_file)
                 
-        return render_template('templates/matches.html', token=token, image=filepath)
+        return render_template('matches.html', token=token, image=filepath)
     else:
         return 'Image not recieved', 400
 
