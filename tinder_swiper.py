@@ -65,9 +65,9 @@ def matches() -> None:
     else:
         return 'Image not recieved', 400
 
-#@app.route('/api/match', methods=['GET'])
-def match(token: int) -> None:
-    #token = request.args['token']
+@app.route('/api/match', methods=['GET'])
+def match() -> None:
+    token = request.args['token']
     if token:
         # Init session
         sess = session.Session()
