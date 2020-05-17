@@ -1,0 +1,68 @@
+html, body{
+    margin: 0;
+    font-family: "Open Sans",sans-serif;
+    height: 100%;
+}
+#nav{
+    height: 85px;
+    display: flex;
+    background: white;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+#logo{
+    width: 200px;
+}
+
+#header{
+    font-size: 22px;
+    color: gray;
+    font-weight: 100;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    background: #1AAEE4;
+    height: 100%;
+}
+
+.top{
+    display: flex;
+}
+
+.display-box{
+    width: 300px;
+    color: darkslategray;
+    font-size: 17pt;
+    margin: 34px 50px 0;
+}
+
+.display-box p {
+    text-align: center;
+}
+
+.bottom{
+    background: white;
+    border-radius: 25px;
+    height: 26%;
+    margin: 0 2%;
+}
+
+.bottom p{
+    color: grey;
+    font-size: 1.1em;
+    margin: 18px 20px 10px 10px;
+}
+.picture {
+    height: 100%;
+}
+
+.frame{
+    border: 10px solid white;
+    border-radius: 25px;
+    box-shadow: 6px 13px 16px 3px black;
+    overflow: hidden;
+    height: 375px;
+}
