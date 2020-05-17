@@ -85,7 +85,7 @@ html, body{
 }
 
 #current-state {
-    flex-grow: .5;
+    flex-grow: 1.5;
     flex-direction: column;
     background-image: url('../images/start-placeholder.png');
     background-size: contain;

@@ -92,7 +92,7 @@
                   info.eq(2).text(`Gender: ${res.gender}`);
                   info.eq(3).text(`Bio: ${res.bio}`);
                   $("#current-state").css("background-image", "none");
-                  $("#current-state").css("flex-grow", "0.4");
+                  $("#current-state").css("flex-grow", "1");
                   $("#current-state").empty();
                   $("#current-state").append(`${Math.round(res.match_percent * 100)}% <br> Similiar`);
                   $("#current-state").append(`<div id="matched-box"></div>`)
