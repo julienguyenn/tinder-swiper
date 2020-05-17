@@ -3,6 +3,7 @@ html, body{
     font-family: "Open Sans",sans-serif;
     height: 100%;
 }
+
 #nav{
     height: 85px;
     display: flex;
@@ -64,4 +65,17 @@ html, body{
     box-shadow: 6px 13px 16px 3px black;
     overflow: hidden;
     height: 375px;
+}
+
+
+#metric {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid;
+    flex-grow: 1;
+    margin: 25px 33px 38px 0;
+}
+
+#current-state {
+    flex-grow: 2;
 }

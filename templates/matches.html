@@ -23,7 +23,7 @@
         <div class="display-box">
           <div class='frame'>
           <!-- Anna should be swapped to the data piped in -->
-            <img class='picture', src="{{ image }}">
+            <img class='picture', src="">
           </div>
           <p>
             Your Photo
@@ -38,12 +38,14 @@
           </p>
         </div>
 
-        <div class='metric'>
+        <div id="metric">
           <div id="current-state">
-
+            
           </div>
-          <button onclick="findMatches()">Start</button>
-          <button onclick="stopFind()">Stop</button>
+          <div id="start-stop-buttons">
+            <button onclick="findMatches()">Start</button>
+            <button onclick="stopFind()">Stop</button>
+          </div>
           <p></p>
         </div>
 
@@ -72,6 +74,7 @@
         console.log("fetching api")
         $.get(`/api/match?token=${user}`)
         .then((res) => {
+          console.log(res)
           $(document).ready(function() {
             $('#match-photo').attr("src", res.pic);
             $('#match-name').text(res.name);
@@ -80,7 +83,7 @@
             info.eq(1).text(`Age: ${res.age}`);
             info.eq(2).text(`Gender: ${res.gender}`);
             info.eq(3).text(`Bio: ${res.bio}`);
-            $('.metric').children().eq(2).text(`LIKED?: ${res.liked}`)
+            $('#metric').children().eq(2).text(`LIKED?: ${res.liked}`)
             })
           })
         }
@@ -100,6 +103,8 @@
         //   //   })
         //   // })
         // }, 100);
+      // }
+
       function stopFind() {
         clearInterval(interval);
       }
