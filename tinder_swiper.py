@@ -36,6 +36,9 @@ COMPARISON_FOLDER = 'comparison/'
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
 
+token_dict = {}
+
+
 # sess = tinder_api.session.Session()
 
 @app.route('/')
@@ -72,6 +75,10 @@ def matches() -> None:
 def match() -> None:
     token = request.args['token']
     if token:
+        if token in token_dict and token_dict[token] == True:
+            return 'Previous request in progress', 400
+        token_dict[token] = True
+        
         download_dir = COMPARISON_FOLDER + str(token) + '/'
         Path(download_dir).mkdir(parents=True, exist_ok=True)
         
@@ -147,6 +154,7 @@ def match() -> None:
             print('Error while deleting file: ' + download_dir)
         
         print()
+        token_dict[token] = False
         return jsonify(return_json)
 
 def compare(base_fp: str, comparison_fp: str) -> float:
