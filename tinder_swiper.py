@@ -71,6 +71,7 @@ def match() -> None:
         
         Path(COMPARISON_FOLDER).mkdir(parents=True, exist_ok=True)
         download_dir = COMPARISON_FOLDER + str(token) + '/'
+        
         # Get info for one user
         user = next(sess.yield_users())        
         user_name = user.name
@@ -79,11 +80,7 @@ def match() -> None:
         
         # Download pictures to /comparison/token/token{0-X}
         download_image(user.photos, token, download_dir)
-        # Store user name
         
-        # Store user bio
-        
-            
         # Run open face in whole dir
         process_pics(in_dir=download_dir)
         
