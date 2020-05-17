@@ -52,12 +52,12 @@ class NormalUser(UserModel):
 
     def super_like(self):
         """Super likes (swipes up) the user"""
-        resp = r.post('/like/{}/super'.format(self.id), {})
+        resp = r.get('/like/{}/super'.format(self.id), {})
         return resp['match']
 
     def dislike(self):
         """Dislikes (swipes left) the user"""
-        resp = r.post('/pass/{}'.format(self.id))
+        resp = r.get('/pass/{}'.format(self.id))
         return 'passed'
 
 

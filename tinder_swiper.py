@@ -1,6 +1,6 @@
 '''
 python -m pip install -U pip
-python -m pip install -U flask python-dateutil wget pandas numpy
+python -m pip install -U flask python-dateutil pandas numpy
 Download 64 bit OpenFace: https://github.com/TadasBaltrusaitis/OpenFace/wiki/Windows-Installation
 Right click "download_models.ps1" and run with powershell
 '''
@@ -54,7 +54,7 @@ def matches() -> None:
         file.save(filepath)
 
         # Create a base image
-        process_pics(filepath)
+        process_pics(filepath, verbose=False)
 
         # Move the csv into base
         processed_file = token + '.csv'
@@ -64,7 +64,6 @@ def matches() -> None:
         return render_template('matches.html', token=token, image=base64_image)
     else:
         return 'Image not recieved', 400
-
 
 @app.route('/api/match', methods=['GET'])
 def match() -> None:
@@ -89,7 +88,7 @@ def match() -> None:
         download_image(user.photos, token, download_dir)
         
         # Run open face in whole dir
-        process_pics(in_dir=download_dir)
+        process_pics(in_dir=download_dir, verbose=False)
         
         # Determine the similarity score
         sim_results = batch_compare(BASE_FOLDER + str(token) + '.csv', PROCESSED_FOLDER)
@@ -97,16 +96,18 @@ def match() -> None:
         # Swipe right or left and select best pic to send
         # this indicates that there were no faces detected in any of the user's photos
         if sim_results == -1: 
-            user_pic = base64_encode(download_dir + str(token) + '_0.jpg')
+            pic = base64_encode(download_dir + str(token) + '_0.jpg')
             user.dislike()
+            
         elif sim_results[1] >= SIM_THRESHOLD:
-            user_pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
             user.dislike()
+            
         elif sim_results[1] < SIM_THRESHOLD:
-            user_pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
             user.like()
             liked = True
-            
+                     
         # Send JSON
         return_json = {}
         user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked']

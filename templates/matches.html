@@ -41,6 +41,27 @@
         <div class='metric'>
           <button onclick="findMatches()">Start</button>
           <button onclick="stopFind()">Stop</button>
+          <script>
+            var user = '{{ token }}'
+            var interval;
+            function findMatches() {
+              interval = setInterval(() => {
+                makeRequest()
+                .then((res) => console.log(res))
+                // .then(function (res) {
+                //   $('#match-photo').attr("src", )
+                // })
+              }, 5000);
+            }
+
+            function makeRequest() {
+              $.get(`/api/match?token=${user}`)
+            }
+
+            function stopFind() {
+              clearInterval(interval);
+            }
+          </script>
         </div>
 
       </div>
