@@ -70,8 +70,8 @@ def match() -> None:
         # Init session
         sess = session.Session()
         
-        Path(COMPARISON_FOLDER).mkdir(parents=True, exist_ok=True)
         download_dir = COMPARISON_FOLDER + str(token) + '/'
+        Path(download_dir).mkdir(parents=True, exist_ok=True)
         
         # Get info for one user
         user = next(sess.yield_users())        
