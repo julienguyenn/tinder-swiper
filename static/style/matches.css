@@ -75,11 +75,11 @@ html, body{
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    margin: 25px 33px 0 0;
+    margin: 25px 33px 71px 0;
 }
 
 #like-result {
-    margin: 0 0 0 0;
+    margin: 0;
     text-align: center;
     color: darkslategray;
 }
@@ -101,6 +101,7 @@ html, body{
 #start-stop-buttons {
     display: flex;
     justify-content: space-evenly;
+    margin-top: 22px;
 }
 
 .control-button {
