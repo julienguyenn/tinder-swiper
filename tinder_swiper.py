@@ -76,15 +76,18 @@ def match() -> None:
         Path(download_dir).mkdir(parents=True, exist_ok=True)
         
         # Get info for one user
+        print('Yielding user info...')
         user = next(sess.yield_users())
         
         # Store their info
         name = user.name
         age = user.age
         gender = user.gender
-        bio = user.bio if user.bio is not "<MissingValue>" else ""
+        #bio = user.bio if str(user.bio) is not '<MissingValue>' else ""
+        bio = ""
         pic = ""
         liked = False
+        dist_val = -10
         
         # Download pictures to /comparison/token/token{0-X}
         download_image(user.photos, token, download_dir)
@@ -98,31 +101,36 @@ def match() -> None:
         # Swipe right or left and select best pic to send
         # this indicates that there were no faces detected in any of the user's photos
         if sim_results == -1: 
-            #pic = base64_encode(download_dir + str(token) + '_0.jpg')
-            print('\n')
+            pic = base64_encode(download_dir + str(token) + '_0.jpg')
+            print()
             print('No face', sim_results)
-            print('\n')
-            
+            print(download_dir + str(token) + '_0.jpg')
+            print()
+            dist_val = sim_results
             user.dislike()
             
         elif sim_results[1] >= SIM_THRESHOLD:
-            #pic = base64_encode(download_dir + sim_results[0] + '.jpg')
-            print('\n')
+            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            print()
             print('Dislike', sim_results)
-            print('\n')
+            print(download_dir + sim_results[0] + '.jpg')
+            print()
             user.dislike()
+            dist_val = sim_results[1]
             
         elif sim_results[1] < SIM_THRESHOLD:
-            #pic = base64_encode(download_dir + sim_results[0] + '.jpg')
-            print('\n')
+            pic = base64_encode(download_dir + sim_results[0] + '.jpg')
+            print()
             print('Like', sim_results)
-            print('\n')
+            print(download_dir + sim_results[0] + '.jpg')
+            print()
+            dist_val = sim_results[1]
             user.like()
             liked = True
                      
         # Send JSON
         return_json = {}
-        user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked']
+        user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked', 'dist_val']
         for v in user_info: 
             return_json[v] = eval(v)
         
@@ -180,11 +188,13 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
-def download_image(img_lst, name, ddir):
+def download_image(img_lst, name, ddir, pic_limit):
     """ This function takes in a list of images, along with a name for the 
         output and downloads them into a directory.
     """
     for i, img_link in enumerate(img_lst):
+        if pic_limit - 1 == i:
+            break
         urllib.request.urlretrieve(img_link, ddir + str(name) + '_' + str(i) + '.jpg')
 
 def base64_encode(in_file: str) -> str:
