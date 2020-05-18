@@ -5,20 +5,23 @@ Upload a photo of a face and our program will look for simmilar profiles on your
 
 ## Words of Wisdom
 
-### winstvn 💩
+### winstvn 🤤
 "This is such a good idea"
 
-### AndreVallestero 💩
+### AndreVallestero 😭
 "I don't want credit"
 
-### sirdommat 💩
+### sirdommat 🤡
 "hahahaha"
 
-### juliebede 💩
+### juliebede 😵
 "People will either laugh with us, think we are messed up, or thank us."
 
-### TerribleHacks
-"We don't condone this"
+### TerribleHacks 😳
+![image](./images/terriblehacks.png)
+
+### The Fans 🤯
+![images](./images/fansComment.png)
 
 ## Images 
 
