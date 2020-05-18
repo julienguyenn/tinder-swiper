@@ -1,4 +1,4 @@
-# OnlySibs Tinder Swiper 
+# OnlySibs Tinder Swiper 🤞
 Upload a photo of a face and our program will look for similar profiles on your Tinder account to swipe right on!
 
 > Built with Flask and OpenFace
@@ -23,7 +23,7 @@ Upload a photo of a face and our program will look for similar profiles on your 
 ### The Fans 🤯
 ![images](./images/fansComment.png)
 
-## Images 
+## Images 📷
 
 ![image](./images/homepage.png)
 ![image](./images/homepage2.png)
