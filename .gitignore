@@ -3,7 +3,6 @@ base/
 processed/
 comparison/
 test*
-readmeimages/
 
 # Dev env files
 .DS_Store

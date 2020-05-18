@@ -6,8 +6,8 @@ Upload a photo of a face and our program will look for simmilar profiles on your
 
 ## Images 
 
-![image](./readmeimages/homepage.png)
-![image](./readmeimages/homepage2.png)
-![image](./readmeimages/inAction.png)
+![image](./images/homepage.png)
+![image](./images/homepage2.png)
+![image](./images/inAction.png)
 
 
