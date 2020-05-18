@@ -17,6 +17,9 @@ Upload a photo of a face and our program will look for simmilar profiles on your
 ### juliebede 💩
 "People will either laugh with us, think we are messed up, or thank us."
 
+### TerribleHacks
+"We don't condone this"
+
 ## Images 
 
 ![image](./images/homepage.png)
