@@ -1,5 +1,5 @@
 # OnlySibs Tinder Swiper 
-Upload a photo of a face and our program will look for simmilar profiles on your Tinder account to swipe right on!
+Upload a photo of a face and our program will look for similar profiles on your Tinder account to swipe right on!
 
 > Built with Flask and OpenFace
 
