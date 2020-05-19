@@ -25,7 +25,7 @@ import tinder_api.session as session
 # Init session
 sess = session.Session()
 
-# Any distance value below this will be liked
+# Set the like threshold
 SIM_THRESHOLD = 200
 P_AT_THRES = 0.66
 
@@ -37,7 +37,7 @@ COMPARISON_FOLDER = 'comparison/'
 app = Flask(__name__)
 app._static_folder = STATIC_FOLDER
 
-token_dict = {}
+token_dict = {} # to keep track of currently active tokens
 
 
 @app.route('/')
@@ -85,7 +85,7 @@ def matches() -> None:
 def match() -> None:
     token = request.args['token']
     if token:
-        if token in token_dict and token_dict[token] == True:
+        if token in token_dict and token_dict[token]:
             return 'Previous request in progress', 400
         token_dict[token] = True
         
@@ -129,8 +129,8 @@ def match() -> None:
         elif sim_results[1] >= SIM_THRESHOLD:
             pic = base64_encode(PROCESSED_FOLDER + sim_results[0] + '.jpg')
             print('Dislike', sim_results)
-            user.dislike()
             dist_val = sim_results[1]
+            user.dislike()
             
         elif sim_results[1] < SIM_THRESHOLD:
             pic = base64_encode(PROCESSED_FOLDER + sim_results[0] + '.jpg')
@@ -142,11 +142,9 @@ def match() -> None:
         # Generate a likelihood percentage based off dist_val
         match_percent = match_likelihood(dist_val)
                      
-        # Send JSON
-        return_json = {}
+        # Build return_json
         user_info = ['name', 'age', 'gender', 'bio', 'pic', 'liked', 'dist_val', 'matched', 'match_percent']
-        for v in user_info: 
-            return_json[v] = eval(v)
+        return_json = {k:eval(k) for k in user_info}
         
         # Delete CSVs from processed
         files_to_del = glob.glob(PROCESSED_FOLDER + str(token) + '*')
@@ -155,13 +153,13 @@ def match() -> None:
             try:
                 remove(fp)
             except:
-                print('Error while deleting file: ' + fp)
+                print('Error while deleting file:', fp)
         
         # Delete downloaded pics
         try:
             remove(download_dir)
         except:
-            print('Error while deleting file: ' + download_dir)
+            print('Error while deleting directory:', download_dir)
         
         print()
         token_dict[token] = False
@@ -204,7 +202,7 @@ def batch_compare(base_fp: str, comparison_dir: str) -> tuple:
         
     return (min(results, key=results.get), results[min(results, key=results.get)])
 
-def download_image(img_lst, name, ddir, pic_limit=3):
+def download_image(img_lst, name, ddir, pic_limit=3) -> None:
     """ This function takes in a list of images, along with a name for the 
         output and downloads them into a directory.
     """
@@ -218,7 +216,7 @@ def base64_encode(in_file: str) -> str:
         encoded_string = base64.b64encode(image_file.read()) 
     return "data:image/jpeg;base64," + str(encoded_string)[2:-1]
 
-def remove(path):
+def remove(path) -> None:
     """ param <path> could either be relative or absolute. """
     if os.path.isfile(path) or os.path.islink(path):
         os.remove(path)  # remove the file
@@ -227,7 +225,7 @@ def remove(path):
     else:
         raise ValueError("file {} is not a file or dir.".format(path))
 
-def match_likelihood(dist_val):
+def match_likelihood(dist_val) -> float:
     """ y=b/(x+b) 
     where x = P_AT_THRES;
           y = SIM_THRESHOLD
